@@ -1,9 +1,14 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Notes = () => {
   return (
-    <Button variant="contained">New Note</Button>
+    <>
+    <IconButton>
+    <AddCircleIcon/>
+    </IconButton>
+    </>
   )
 }
 

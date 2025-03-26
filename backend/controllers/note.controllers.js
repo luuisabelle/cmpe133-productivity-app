@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import Note from "../models/note.model.js";
 
+export const getAllNotes = async (req, res) => {
+    try {
+        const notes = await Note.find({});
+        res.status(201).json({ success: true, data: notes});
+    } catch (error) {
+        console.error("Cannot get notes.", error.message);
+        res.status(500).json({ success: false, message: "Server Error"})
+    }
+};
+
 export const createNote = async (req, res) => {
     const note = req.body;
     const newNote = new Note(note);

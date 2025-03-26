@@ -3,6 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 import {Link} from 'react-router-dom';
+import Calendar from '../components/Calendar';
 
 const HomePage = () => {
   return (
