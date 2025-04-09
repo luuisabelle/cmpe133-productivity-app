@@ -11,6 +11,7 @@ const HomePage = () => {
       <Button component={Link} to="/notes" variant="contained">Notes</Button>
       <Button component={Link} to="/scheduling" variant="contained">Scheduling</Button>
       <Button component={Link} to="/todo" variant="contained">To-Do List</Button>
+      <Button component={Link} to="/timer" variant="contained">Timer</Button>
     </Stack>
   )
 }

@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import ToDo from "./pages/ToDo";
+import Timer from "./pages/Timer";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/notes" element={<Notes/>}/>
         <Route path="/todo" element={<ToDo/>}/>
         <Route path="/" element={<HomePage/>}/>
+        <Route path="/timer" element={<Timer />} />
       </Routes>
       </Paper>
       </Grid>
