@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid2';
 import ToDo from "./pages/ToDo";
 import Timer from "./pages/Timer";
 import Spotify from './pages/Spotify';
+import SignIn from './pages/SignIn';
+
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
         <Route path="/" element={<HomePage/>}/>
         <Route path="/timer" element={<Timer />} />
         <Route path="/spotify" element={<Spotify />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
       </Paper>
       </Grid>
