@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import ToDo from "./pages/ToDo";
 import Timer from "./pages/Timer";
+import Spotify from './pages/Spotify';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/todo" element={<ToDo/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/timer" element={<Timer />} />
+        <Route path="/spotify" element={<Spotify />} />
       </Routes>
       </Paper>
       </Grid>

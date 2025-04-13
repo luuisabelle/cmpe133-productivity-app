@@ -13,6 +13,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const drawerWidth = 240;
 
@@ -108,7 +110,14 @@ export default function PersistentDrawerLeft() {
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Productivity App
-          </Typography>
+          </Typography> <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
+              <Typography variant="body2" sx={{ color: 'white' }}>
+              Saved
+              </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
