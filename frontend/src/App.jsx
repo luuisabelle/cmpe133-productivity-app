@@ -9,7 +9,7 @@ import ToDo from "./pages/ToDo";
 import Timer from "./pages/Timer";
 import Spotify from './pages/Spotify';
 import SignIn from './pages/SignIn';
-
+import Settings from './pages/Settings';
 
 function App() {
 
@@ -29,6 +29,7 @@ function App() {
         <Route path="/timer" element={<Timer />} />
         <Route path="/spotify" element={<Spotify />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       </Paper>
       </Grid>
