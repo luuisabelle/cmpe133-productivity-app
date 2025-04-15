@@ -13,133 +13,187 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import MenuIcon from '@mui/icons-material/Menu';
 import { MenuItem, MenuList } from '@mui/material';
 import {Link} from 'react-router-dom';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import Avatar from '@mui/material/Avatar';
+import SettingsIcon from '@mui/icons-material/Settings';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          marginLeft: 0,
-        },
-      },
-    ],
-  }),
+    ({ theme }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        variants: [
+            {
+                props: ({ open }) => open,
+                style: {
+                    transition: theme.transitions.create('margin', {
+                        easing: theme.transitions.easing.easeOut,
+                        duration: theme.transitions.duration.enteringScreen,
+                    }),
+                    marginLeft: 0,
+                },
+            },
+        ],
+    })
 );
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    },
-  ],
+    backgroundColor: 'black',
+    color: 'white',
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    variants: [
+        {
+            props: ({ open }) => open,
+            style: {
+                width: `calc(100% - ${drawerWidth}px)`,
+                marginLeft: `${drawerWidth}px`,
+                transition: theme.transitions.create(['margin', 'width'], {
+                    easing: theme.transitions.easing.easeOut,
+                    duration: theme.transitions.duration.enteringScreen,
+                }),
+            },
+        },
+    ],
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    backgroundColor: 'gray',
+    color: 'white',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
 }));
 
 export default function PersistentDrawerLeft() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
+    const [showTimer, setShowTimer] = React.useState(true);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                mr: 2,
-              },
-              open && { display: 'none' },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box href="/" component="a" sx={{textDecoration:"none", cursor:"pointer", color:"inherit"}}> 
-          <img src="/hachiware.png" style={{height:"5vh"}}/>
-          <Typography fontFamily= "serif" fontWeight="600" fontSize="25px" variant="h6" noWrap component="a">
-            Productivity App
-          </Typography>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <MenuList>
-          <MenuItem component={Link} to="/">Home</MenuItem>
-          <MenuItem component={Link} to="/notes">Notes</MenuItem>
-          <MenuItem component={Link} to="/scheduling" >Scheduling</MenuItem>
-          <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
-        </MenuList>
-      </Drawer>
-      <Main open={open}>
-        
-        
-      </Main>
-    </Box>
-  );
+    return (
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar position="fixed" open={open}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={[{ mr: 2 }, open && { display: 'none' }]}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Box href="/" component="a" sx={{textDecoration:"none", cursor:"pointer", color:"inherit"}}> 
+                    <Typography fontFamily= "serif" fontWeight="600" fontSize="25px" variant="h6" noWrap component="a">
+                        Productivity App
+                    </Typography>
+                    </Box>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
+                        <Typography variant="body2" sx={{ color: 'white' }}>
+                            Saved
+                        </Typography>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+
+            <Drawer
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                        backgroundColor: '#1a1a1a',
+                        color: 'white',
+                    },
+                }}
+                variant="persistent"
+                anchor="left"
+                open={open}
+            >
+                <DrawerHeader>
+                    <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
+                        {theme.direction === 'ltr' ? (
+                            <KeyboardDoubleArrowLeftIcon />
+                        ) : (
+                            <KeyboardDoubleArrowRightIcon />
+                        )}
+                    </IconButton>
+                </DrawerHeader>
+
+                {/* Profile section */}
+                <Box sx={{ textAlign: 'center', p: 2 }}>
+                    <Avatar
+                        alt="Google User"
+                        src="https://lh3.googleusercontent.com/a/your-google-photo-id"
+                        sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }}
+                    />
+                    <Typography variant="subtitle1" sx={{ color: 'white' }}>
+                        Google User
+                    </Typography>
+                </Box>
+
+                {/* Settings button */}
+                <List sx={{ px: 1 }}>
+                    <ListItemButton
+                        onClick={() => navigate('/settings')}
+                        sx={{
+                            border: '1px solid white',
+                            borderRadius: 1,
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: '#222',
+                            },
+                        }}
+                    >
+                        <ListItemIcon>
+                            <SettingsIcon sx={{ color: 'white' }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Settings" />
+                    </ListItemButton>
+                </List>
+
+                <Divider sx={{ my: 2, borderColor: '#fff' }} />
+
+                {/* Labels */}
+                <MenuList>
+                <MenuItem component={Link} to="/">Home</MenuItem>
+                <MenuItem component={Link} to="/notes">Notes</MenuItem>
+                <MenuItem component={Link} to="/scheduling" >Scheduling</MenuItem>
+                <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
+                </MenuList>
+            </Drawer>
+
+            <Main open={open}></Main>
+        </Box>
+    );
 }

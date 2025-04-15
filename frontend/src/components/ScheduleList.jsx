@@ -7,7 +7,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { clockClasses, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
@@ -105,8 +105,9 @@ const handleEventClose = () => {
     />
     <Dialog open={eventOpen} onClose={handleEventClose}>
       {editingId === clickedEvent?.extendedProps?._id ? (
-        <Box display="flex">
-        <TextField value={clickedEvent?.title} onChange={(e) => setEditedTitle(e.target.value)}></TextField>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <Typography sx={{margin:3, fontWeight:"bold"}}>Editing Schedule: {clickedEvent?.title}</Typography>
+        <TextField label="Schedule Name" defaultValue={clickedEvent?.title} value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} sx={{margin:3}}></TextField>
 
         </Box>
       ) : (
@@ -127,7 +128,7 @@ const handleEventClose = () => {
       )}
       <DialogContent>
         {editingId === clickedEvent?.extendedProps?._id ? (
-          <>
+          <div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TimePicker label="Pick a Start Time" 
                   value={editedStart}
@@ -137,7 +138,7 @@ const handleEventClose = () => {
                   value={editedEnd}
                   onChange={(newValue) => setEditedEnd(newValue)}/> 
           </LocalizationProvider>
-          </>
+          </div>
         ) : (
           <>
           <DialogContentText>Start: {dayjs(clickedEvent?.start).format('MMM D, YYYY h:mm A')}</DialogContentText>

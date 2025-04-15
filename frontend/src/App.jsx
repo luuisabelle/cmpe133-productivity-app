@@ -6,26 +6,26 @@ import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import ToDo from "./pages/ToDo";
-import { lightBlue } from "@mui/material/colors";
 import { Helmet } from "react-helmet";
+import { common } from "@mui/material/colors";
 import Note from "./pages/Note";
 import NoteTable from "./components/NoteTable";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: lightBlue[200],
-    },
-  },
-})
+import Timer from "./pages/Timer";
+import Spotify from './pages/Spotify';
+import SignIn from './pages/SignIn';
+import Settings from './pages/Settings';
 
 function App() {
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: common.black,
+      },
+    },
+  })
+
   return (
-    <ThemeProvider theme={theme}>
-      <Helmet>
-        <link rel="icon" type="image/png" href="/hachiware.png"/>
-      </Helmet>
     <Grid container
     sx={{ minHeight: "100vh", flexGrow:1, width:"100%", padding:"20px" }} justifyContent="center" alignItems="center">
       <Grid item sx={{ width: "100%" }}>
@@ -41,11 +41,14 @@ function App() {
         </Route>
         <Route path="/todo" element={<ToDo/>}/>
         <Route path="/" element={<HomePage/>}/>
+        <Route path="/timer" element={<Timer />} />
+        <Route path="/spotify" element={<Spotify />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       {/*</Paper>*/}
       </Grid>
       </Grid>
-      </ThemeProvider>
   )
 }
 

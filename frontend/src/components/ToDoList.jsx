@@ -25,6 +25,7 @@ const handleNew = async() => {
       if (!response.ok) {
         throw new Error('Failed to save task')
       }
+      setTodo('')
       fetchTodos();
     }
     catch(error) {
