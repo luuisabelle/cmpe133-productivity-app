@@ -10,9 +10,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import MenuIcon from '@mui/icons-material/Menu';
+import { MenuItem, MenuList } from '@mui/material';
+import {Link} from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -100,11 +100,14 @@ export default function PersistentDrawerLeft() {
               open && { display: 'none' },
             ]}
           >
-            <KeyboardDoubleArrowRightIcon />
+            <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Box href="/" component="a" sx={{textDecoration:"none", cursor:"pointer", color:"inherit"}}> 
+          <img src="/hachiware.png" style={{height:"5vh"}}/>
+          <Typography fontFamily= "serif" fontWeight="600" fontSize="25px" variant="h6" noWrap component="a">
             Productivity App
           </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -126,11 +129,12 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-        </FormGroup>
+        <MenuList>
+          <MenuItem component={Link} to="/">Home</MenuItem>
+          <MenuItem component={Link} to="/notes">Notes</MenuItem>
+          <MenuItem component={Link} to="/scheduling" >Scheduling</MenuItem>
+          <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
+        </MenuList>
       </Drawer>
       <Main open={open}>
         

@@ -11,6 +11,18 @@ export const getAllNotes = async (req, res) => {
     }
 };
 
+export const getNote = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const note = await Note.findById(id);
+        res.status(201).json({ success: true, data: note});
+    } catch (error) {
+        console.error("Cannot get note.", error.message);
+        res.status(500).json({ success: false, message: "Server Error"})
+    }
+};
+
+
 export const createNote = async (req, res) => {
     const note = req.body;
     const newNote = new Note(note);
@@ -31,7 +43,7 @@ export const deleteNote = async (req, res) => {
     }
 
     try {
-        await Note.findByIdAndDeleted(id);
+        await Note.findByIdAndDelete(id);
         res.status(200).json({ success: true, message: "Note deleted"});
     } catch(error) {
         res.status(500).json({ success: false, message: "Server Error"});
@@ -47,7 +59,7 @@ export const updateNote = async (req, res) => {
     }
 
     try {
-        const newNote = await Note.findByIdAndUpdated(id, note, {new:true});
+        const newNote = await Note.findByIdAndUpdate(id, note, {new:true});
         res.status(200).json({ success: true, data: newNote});
     } catch(error) {
         res.status(500).json({ success: false, message: "Server Error"});

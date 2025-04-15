@@ -4,7 +4,11 @@ const notesSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-    } 
+    },
+    content: {
+        type: String,
+        required: false
+    }
 
 }, {
     timestamps: true

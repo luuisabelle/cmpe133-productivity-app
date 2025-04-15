@@ -6,14 +6,14 @@ const scheduleSchema = new mongoose.Schema({
         required: true
     },
     
-    date: {
-        type: String,
+    start: {
+        type: Date,
         required: true
     },
-    
-    time: {
-        type: String,
-        required: true
+
+    end: {
+        type: Date,
+        required: false
     }
 
 }, {

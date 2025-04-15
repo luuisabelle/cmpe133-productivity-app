@@ -1,13 +1,14 @@
 import React from 'react'
-import { Button, IconButton } from '@mui/material'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Button, Grid2, IconButton, Paper, Table } from '@mui/material'
+import NoteTable from '../components/NoteTable';
+import Note from './Note';
+import { Outlet } from 'react-router-dom';
 
 const Notes = () => {
   return (
     <>
-    <IconButton>
-    <AddCircleIcon/>
-    </IconButton>
+    <title>Notes</title>
+    <Outlet/>
     </>
   )
 }
