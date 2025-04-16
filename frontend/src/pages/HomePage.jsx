@@ -1,6 +1,7 @@
 import React from 'react'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Chatbot from '../components/Chatbot';
 
 import {Link} from 'react-router-dom';
 
@@ -15,6 +16,7 @@ const HomePage = () => {
       <Button component={Link} to="/timer" variant="contained" sx={{ backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: '#222' } }}>Timer</Button>
       <Button component={Link} to="/spotify" variant="contained" sx={{ backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: '#222' } }}>Spotify</Button>
     </Stack>
+    <Chatbot />
     </>
   )
 }
