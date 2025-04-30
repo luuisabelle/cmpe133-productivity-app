@@ -12,7 +12,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import MenuIcon from '@mui/icons-material/Menu';
 import { MenuItem, MenuList } from '@mui/material';
-import {Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import Avatar from '@mui/material/Avatar';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -20,7 +20,6 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -33,18 +32,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: `-${drawerWidth}px`,
-        variants: [
-            {
-                props: ({ open }) => open,
-                style: {
-                    transition: theme.transitions.create('margin', {
-                        easing: theme.transitions.easing.easeOut,
-                        duration: theme.transitions.duration.enteringScreen,
-                    }),
-                    marginLeft: 0,
-                },
-            },
-        ],
     })
 );
 
@@ -57,19 +44,6 @@ const AppBar = styled(MuiAppBar, {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    variants: [
-        {
-            props: ({ open }) => open,
-            style: {
-                width: `calc(100% - ${drawerWidth}px)`,
-                marginLeft: `${drawerWidth}px`,
-                transition: theme.transitions.create(['margin', 'width'], {
-                    easing: theme.transitions.easing.easeOut,
-                    duration: theme.transitions.duration.enteringScreen,
-                }),
-            },
-        },
-    ],
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -86,15 +60,9 @@ export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
-    const [showTimer, setShowTimer] = React.useState(true);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const handleDrawerOpen = () => setOpen(true);
+    const handleDrawerClose = () => setOpen(false);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -110,17 +78,15 @@ export default function PersistentDrawerLeft() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box href="/" component="a" sx={{textDecoration:"none", cursor:"pointer", color:"inherit"}}> 
-                    <Typography fontFamily= "serif" fontWeight="600" fontSize="25px" variant="h6" noWrap component="a">
-                        Productivity App
-                    </Typography>
+                    <Box href="/" component="a" sx={{ textDecoration: "none", cursor: "pointer", color: "inherit" }}>
+                        <Typography fontFamily="serif" fontWeight="600" fontSize="25px" variant="h6" noWrap>
+                            Productivity App
+                        </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
-                        <Typography variant="body2" sx={{ color: 'white' }}>
-                            Saved
-                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'white' }}>Saved</Typography>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -142,54 +108,68 @@ export default function PersistentDrawerLeft() {
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
-                        {theme.direction === 'ltr' ? (
-                            <KeyboardDoubleArrowLeftIcon />
-                        ) : (
-                            <KeyboardDoubleArrowRightIcon />
-                        )}
+                        {theme.direction === 'ltr' ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
                     </IconButton>
                 </DrawerHeader>
 
                 {/* Profile section */}
                 <Box sx={{ textAlign: 'center', p: 2 }}>
-                    <Avatar
-                        alt="Google User"
-                        src="https://lh3.googleusercontent.com/a/your-google-photo-id"
-                        sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }}
-                    />
+                    <Avatar alt="Google User" sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }} />
                     <Typography variant="subtitle1" sx={{ color: 'white' }}>
                         Google User
                     </Typography>
+
+                    <List sx={{ mt: 2 }}>
+                        <ListItemButton
+                            onClick={() => navigate('/settings')}
+                            sx={{
+                                border: '1px solid white',
+                                borderRadius: 1,
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: '#222',
+                                },
+                            }}
+                        >
+                            <ListItemIcon>
+                                <SettingsIcon sx={{ color: 'white' }} />
+                            </ListItemIcon>
+                            <ListItemText primary="Settings" />
+                        </ListItemButton>
+                    </List>
                 </Box>
 
-                {/* Settings button */}
-                <List sx={{ px: 1 }}>
-                    <ListItemButton
-                        onClick={() => navigate('/settings')}
-                        sx={{
-                            border: '1px solid white',
-                            borderRadius: 1,
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: '#222',
-                            },
-                        }}
+                {/* Linked Accounts */}
+                <Box sx={{ px: 2 }}>
+                    <Typography variant="subtitle2" sx={{ mb: 1, color: '#ccc' }}>Linked Accounts:</Typography>
+                    <Typography
+                        component="a"
+                        href="https://notion.so"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
                     >
-                        <ListItemIcon>
-                            <SettingsIcon sx={{ color: 'white' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                    </ListItemButton>
-                </List>
+                        Notion
+                    </Typography>
+                    <Typography
+                        component="a"
+                        href="https://drive.google.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+                    >
+                        Google Drive
+                    </Typography>
+                </Box>
 
                 <Divider sx={{ my: 2, borderColor: '#fff' }} />
 
-                {/* Labels */}
+                {/* Navigation */}
                 <MenuList>
-                <MenuItem component={Link} to="/">Home</MenuItem>
-                <MenuItem component={Link} to="/notes">Notes</MenuItem>
-                <MenuItem component={Link} to="/scheduling" >Scheduling</MenuItem>
-                <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
+                    <MenuItem component={Link} to="/">Home</MenuItem>
+                    <MenuItem component={Link} to="/notes">Notes</MenuItem>
+                    <MenuItem component={Link} to="/scheduling">Scheduling</MenuItem>
+                    <MenuItem component={Link} to="/todo">Task Management</MenuItem>
                 </MenuList>
             </Drawer>
 
