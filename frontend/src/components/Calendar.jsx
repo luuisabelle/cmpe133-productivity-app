@@ -36,8 +36,9 @@ const Calendar = ({onScheduleAdded}) => {
         body: JSON.stringify({
           title: title,
           start: combinedStartDateTime,
-          end: combinedEndDateTime 
-        }),
+          end: combinedEndDateTime,
+          userEmail: currentUser.email
+        }),        
       })
 
       if (onScheduleAdded) {

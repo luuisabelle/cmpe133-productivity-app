@@ -8,7 +8,7 @@ const Scheduling = () => {
 
   const fetchSchedules = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/schedules");
+        const response = await fetch("http://localhost:5000/api/schedules?email=${currentUser.email}");
         const data = await response.json();
         if (data.success) {
           setSchedules(data.data)

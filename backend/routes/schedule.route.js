@@ -4,6 +4,7 @@ import { get } from "mongoose";
 
 const router = express.Router();
 
+router.get("/", getSchedulesByUser); 
 router.get("/", getAllSchedules);
 
 router.post("/", createSchedule);
