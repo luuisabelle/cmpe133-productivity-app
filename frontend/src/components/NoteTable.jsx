@@ -11,12 +11,16 @@ const [createNew, setCreateNew] = useState(false)
 const [noteName, setNoteName] = useState('')
 const [noteContent, setNoteContent] = useState('')
 const [id, setId] = useState(null)
-const [userEmail] = testuser@gmail.com // TODO: Replace with Google login email
+ //TODO: Replace with Google login email
+const [userEmail] = "testuser@gmail.com";
+const [isSavingNote, setIsSavingNote] = useState(false);
+
 
 
 
 const handleNew = async() => {
     try {
+      setIsSavingNote(true);
       const response = await fetch("http://localhost:5000/api/notes", {
         method:"POST",
         headers: { "Content-Type": "application/json" },
@@ -35,8 +39,10 @@ const handleNew = async() => {
     }
     catch(error) {
       console.error('Failed to save note', error)
-    }
+    }finally {
+      setIsSavingNote(false);
   }
+}
   useEffect(() => {
       fetchNotes();
   }, [])

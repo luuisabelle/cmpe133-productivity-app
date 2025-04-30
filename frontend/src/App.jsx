@@ -15,8 +15,17 @@ import Spotify from './pages/Spotify';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
 import Widgets from './pages/Widgets.jsx';
+import React, { useState } from 'react';
+
 
 function App() {
+
+  const [isSavingTodo, setIsSavingTodo] = useState(false);
+  const [isSavingSchedule, setIsSavingSchedule] = useState(false);
+  const [isSavingNote, setIsSavingNote] = useState(false);
+
+  const isSaving = isSavingTodo || isSavingSchedule || isSavingNote;
+
 
   const theme = createTheme({
     palette: {

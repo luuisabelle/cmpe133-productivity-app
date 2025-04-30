@@ -16,6 +16,7 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import { MenuItem, MenuList } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import Avatar from '@mui/material/Avatar';
 import SettingsIcon from '@mui/icons-material/Settings';
 import List from '@mui/material/List';
@@ -73,7 +74,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft( isSaving) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -124,12 +125,24 @@ export default function PersistentDrawerLeft() {
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
-                        <Typography variant="body2" sx={{ color: 'white' }}>
-                            Saved
-                        </Typography>
-                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    {isSaving ? (
+                                    <>
+                                    <CloudSyncIcon fontSize="small" sx={{ color: 'white', animation: 'spin 1s linear infinite' }} />
+                                    <Typography variant="body2" sx={{ color: 'white' }}>
+                                    Saving...
+                                    </Typography>
+                                    </>
+                                    ) : (
+                                    <>
+                                    <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
+                                    <Typography variant="body2" sx={{ color: 'white' }}>
+                                    Saved
+                                            </Typography>
+                                            </>
+                                        )}
+                                </Box>
+
                 </Toolbar>
             </AppBar>
 
