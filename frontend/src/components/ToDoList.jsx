@@ -13,6 +13,7 @@ const [editedTodos, setEditedTodos] = useState({})
 const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
 
+
 const handleNew = async() => {
     try {
       const response = await fetch("http://localhost:5000/api/todos", {
@@ -20,6 +21,7 @@ const handleNew = async() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           todo: todo
+          userEmail: currentUser.email
         }),
       })
       if (!response.ok) {
@@ -51,7 +53,7 @@ const handleNew = async() => {
   
   const fetchTodos = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/todos");
+          const response = await fetch("http://localhost:5000/api/todos?email=${currentUser.email}");
           const data = await response.json();
           if (data.success) {
             setTodos(data.data)

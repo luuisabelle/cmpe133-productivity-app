@@ -11,6 +11,19 @@ export const getAllTodos = async (req, res) => {
     }
 };
 
+export const getTodosByUser = async (req, res) => {
+    try {
+      const email = req.query.email;
+      const todos = await Todo.find({ userEmail: email });
+      res.status(200).json({ success: true, data: todos });
+    } catch (error) {
+      console.error("Cannot get todos by user:", error.message);
+      res.status(500).json({ success: false, message: "Server Error" });
+    }
+  };
+  
+  
+
 export const createTodo = async (req, res) => {
     const todo = req.body;
     const newTodo = new Todo(todo);
@@ -41,7 +54,7 @@ export const deleteTodo = async (req, res) => {
 export const updateTodo = async (req, res) => {
     const { id } = req.params;
     const todo = req.body;
-
+    
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ success: false, message: "To-Do not found"})
     }
