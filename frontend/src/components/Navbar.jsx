@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
 import { MenuItem, MenuList } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
@@ -24,7 +25,7 @@ import ListItemText from '@mui/material/ListItemText';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme }) => ({
+    ({ theme, open }) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
@@ -32,17 +33,32 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        }),
     })
 );
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme }) => ({
+})(({ theme, open }) => ({
     backgroundColor: 'black',
     color: 'white',
     transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     }),
 }));
 
@@ -53,7 +69,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     backgroundColor: 'gray',
     color: 'white',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
 }));
 
 export default function PersistentDrawerLeft() {
@@ -67,6 +83,7 @@ export default function PersistentDrawerLeft() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
+
             <AppBar position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
@@ -78,15 +95,25 @@ export default function PersistentDrawerLeft() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box href="/" component="a" sx={{ textDecoration: "none", cursor: "pointer", color: "inherit" }}>
-                        <Typography fontFamily="serif" fontWeight="600" fontSize="25px" variant="h6" noWrap>
-                            Productivity App
-                        </Typography>
-                    </Box>
+
+                    <Typography
+                        component="div"
+                        fontFamily="serif"
+                        fontWeight="600"
+                        fontSize="25px"
+                        variant="h6"
+                        sx={{ color: 'white' }}
+                    >
+                        Productivity App
+                    </Typography>
+
                     <Box sx={{ flexGrow: 1 }} />
+
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
-                        <Typography variant="body2" sx={{ color: 'white' }}>Saved</Typography>
+                        <Typography variant="body2" sx={{ color: 'white' }}>
+                            Saved
+                        </Typography>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -107,30 +134,21 @@ export default function PersistentDrawerLeft() {
                 open={open}
             >
                 <DrawerHeader>
+                    <IconButton component={Link} to="/" sx={{ color: 'white', ml: 1 }}>
+                        <HomeIcon />
+                    </IconButton>
                     <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
                         {theme.direction === 'ltr' ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
                     </IconButton>
                 </DrawerHeader>
 
-                {/* Profile section */}
+                {/* Profile */}
                 <Box sx={{ textAlign: 'center', p: 2 }}>
                     <Avatar alt="Google User" sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }} />
-                    <Typography variant="subtitle1" sx={{ color: 'white' }}>
-                        Google User
-                    </Typography>
+                    <Typography variant="subtitle1">Google User</Typography>
 
                     <List sx={{ mt: 2 }}>
-                        <ListItemButton
-                            onClick={() => navigate('/settings')}
-                            sx={{
-                                border: '1px solid white',
-                                borderRadius: 1,
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: '#222',
-                                },
-                            }}
-                        >
+                        <ListItemButton onClick={() => navigate('/settings')} sx={{ border: '1px solid white', borderRadius: 1 }}>
                             <ListItemIcon>
                                 <SettingsIcon sx={{ color: 'white' }} />
                             </ListItemIcon>
@@ -141,13 +159,13 @@ export default function PersistentDrawerLeft() {
 
                 {/* Linked Accounts */}
                 <Box sx={{ px: 2 }}>
-                    <Typography variant="subtitle2" sx={{ mb: 1, color: '#ccc' }}>Linked Accounts:</Typography>
+                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>Linked Accounts:</Typography>
                     <Typography
                         component="a"
                         href="https://notion.so"
                         target="_blank"
                         rel="noopener noreferrer"
-                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
                     >
                         Notion
                     </Typography>
@@ -156,7 +174,7 @@ export default function PersistentDrawerLeft() {
                         href="https://drive.google.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
                     >
                         Google Drive
                     </Typography>
@@ -164,16 +182,14 @@ export default function PersistentDrawerLeft() {
 
                 <Divider sx={{ my: 2, borderColor: '#fff' }} />
 
-                {/* Navigation */}
                 <MenuList>
-                    <MenuItem component={Link} to="/">Home</MenuItem>
                     <MenuItem component={Link} to="/notes">Notes</MenuItem>
                     <MenuItem component={Link} to="/scheduling">Scheduling</MenuItem>
                     <MenuItem component={Link} to="/todo">Task Management</MenuItem>
                 </MenuList>
             </Drawer>
 
-            <Main open={open}></Main>
+            <Main open={open} />
         </Box>
     );
 }
