@@ -12,6 +12,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
+import BoltIcon from '@mui/icons-material/Bolt';
 import { MenuItem, MenuList } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
@@ -96,16 +97,30 @@ export default function PersistentDrawerLeft() {
                         <MenuIcon />
                     </IconButton>
 
-                    <Typography
-                        component="div"
-                        fontFamily="serif"
-                        fontWeight="600"
-                        fontSize="25px"
-                        variant="h6"
-                        sx={{ color: 'white' }}
-                    >
-                        Productivity App
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <BoltIcon sx={{ color: 'white', mr: 1 }} />
+
+                        <Box>
+                            <Typography
+                                component="div"
+                                fontFamily="serif"
+                                fontWeight="600"
+                                fontSize="25px"
+                                variant="h6"
+                                sx={{ color: 'white' }}
+                            >
+                                Rhythm
+                            </Typography>
+                            <Typography
+                                component="div"
+                                fontSize="13px"
+                                fontStyle="italic"
+                                sx={{ color: 'white', mt: -0.5 }}
+                            >
+                                Flow through your day with purpose.
+                            </Typography>
+                        </Box>
+                    </Box>
 
                     <Box sx={{ flexGrow: 1 }} />
 
