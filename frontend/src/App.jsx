@@ -14,6 +14,7 @@ import Timer from "./pages/Timer";
 import Spotify from './pages/Spotify';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
+import Widgets from './pages/Widgets.jsx';
 
 function App() {
 
@@ -32,7 +33,6 @@ function App() {
       <Navbar ></Navbar>
       </Grid>
       <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
-    {/*<Paper elevation={3} sx={{ padding: "20px", textAlign: "center", width:"90vw", height:"90vh", overflow:"auto"}} justifyContent="center" alignItems="center">*/}
       <Routes>
         <Route path="/scheduling" element={<Scheduling/>}/>
         <Route path="/notes" element={<Notes/>}>
@@ -45,8 +45,8 @@ function App() {
         <Route path="/spotify" element={<Spotify />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/widgets" element={<Widgets />} />
       </Routes>
-      {/*</Paper>*/}
       </Grid>
       </Grid>
   )
