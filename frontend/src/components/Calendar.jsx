@@ -16,6 +16,8 @@ const Calendar = ({onScheduleAdded}) => {
   const [startDateAndTime, setStartDateAndTime] = useState(new Date())
   const [endDateAndTime, setEndDateAndTime] = useState(new Date())
   const [title, setTitle] = useState("")
+  const [userEmail] = testuser@gmail.com // TODO: Replace with Google login email
+
 
   const handleAccept = async() => {
     try {

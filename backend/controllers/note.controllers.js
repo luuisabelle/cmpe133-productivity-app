@@ -11,9 +11,22 @@ export const getAllNotes = async (req, res) => {
     }
 };
 
+export const getNotesByUser = async (req, res) => {
+    const email = req.query.email;
+  
+    try {
+      const notes = await Note.find({ userEmail: email });
+      res.status(200).json({ success: true, data: notes });
+    } catch (error) {
+      console.error("Cannot get notes.", error.message);
+      res.status(500).json({ success: false, message: "Server Error" });
+    }
+  };
+  
+
 export const getNote = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {id} = req.params;  
         const note = await Note.findById(id);
         res.status(201).json({ success: true, data: note});
     } catch (error) {

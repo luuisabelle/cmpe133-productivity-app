@@ -1,5 +1,5 @@
 import express from "express";
-import { createSchedule, deleteSchedule, updateSchedule, getAllSchedules } from "../controllers/schedule.controllers.js";
+import { createSchedule, getSchedulesByUser, deleteSchedule, updateSchedule, getAllSchedules } from "../controllers/schedule.controllers.js";
 import { get } from "mongoose";
 
 const router = express.Router();

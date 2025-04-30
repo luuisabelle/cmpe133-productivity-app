@@ -11,6 +11,9 @@ const [createNew, setCreateNew] = useState(false)
 const [noteName, setNoteName] = useState('')
 const [noteContent, setNoteContent] = useState('')
 const [id, setId] = useState(null)
+const [userEmail] = testuser@gmail.com // TODO: Replace with Google login email
+
+
 
 const handleNew = async() => {
     try {
@@ -19,7 +22,8 @@ const handleNew = async() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: noteName,
-          content: ''
+          content: '',
+          userEmail: currentUser.email
         }),
       })
       if (!response.ok) {
@@ -61,7 +65,7 @@ const handleNew = async() => {
 
   const fetchNotes = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/notes");
+        const response = await fetch("http://localhost:5000/api/notes?email=${currentUser.email}");
         const data = await response.json();
         if (data.success) {
           setNotes(data.data)

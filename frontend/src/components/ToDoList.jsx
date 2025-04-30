@@ -12,6 +12,7 @@ const [todo, setTodo] = useState('')
 const [editedTodos, setEditedTodos] = useState({})
 const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
+const [userEmail] = testuser@gmail.com // TODO: Replace with Google login email
 
 
 const handleNew = async() => {
