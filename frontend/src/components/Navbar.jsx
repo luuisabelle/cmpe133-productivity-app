@@ -74,7 +74,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
 }));
 
-export default function PersistentDrawerLeft( isSaving) {
+export default function PersistentDrawerLeft(isSaving) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -100,7 +100,6 @@ export default function PersistentDrawerLeft( isSaving) {
 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <BoltIcon sx={{ color: 'white', mr: 1 }} />
-
                         <Box>
                             <Typography
                                 component="div"
@@ -125,24 +124,23 @@ export default function PersistentDrawerLeft( isSaving) {
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    {isSaving ? (
-                                    <>
-                                    <CloudSyncIcon fontSize="small" sx={{ color: 'white', animation: 'spin 1s linear infinite' }} />
-                                    <Typography variant="body2" sx={{ color: 'white' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        {isSaving ? (
+                            <>
+                                <CloudSyncIcon fontSize="small" sx={{ color: 'white', animation: 'spin 1s linear infinite' }} />
+                                <Typography variant="body2" sx={{ color: 'white' }}>
                                     Saving...
-                                    </Typography>
-                                    </>
-                                    ) : (
-                                    <>
-                                    <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
-                                    <Typography variant="body2" sx={{ color: 'white' }}>
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
+                                <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
+                                <Typography variant="body2" sx={{ color: 'white' }}>
                                     Saved
-                                            </Typography>
-                                            </>
-                                        )}
-                                </Box>
-
+                                </Typography>
+                            </>
+                        )}
+                    </Box>
                 </Toolbar>
             </AppBar>
 
@@ -187,43 +185,73 @@ export default function PersistentDrawerLeft( isSaving) {
 
                 {/* Linked Accounts */}
                 <Box sx={{ px: 2 }}>
-                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>Linked Accounts:</Typography>
-                    <Typography
-                        component="a"
-                        href="https://notion.so"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
-                    >
-                        Notion
+                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
+                        Linked Accounts:
                     </Typography>
-                    <Typography
-                        component="a"
-                        href="https://drive.google.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
-                    >
-                        Google Drive
-                    </Typography>
-                    <Typography
-                    component="a"
-                    href="https://sjsu.instructure.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
-                    >
-                    SJSU Canvas
-                </Typography>
+                    <MenuList>
+                        <MenuItem
+                            component="a"
+                            href="https://github.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ pl: 2 }}
+                        >
+                            GitHub
+                        </MenuItem>
+                        <MenuItem
+                            component="a"
+                            href="https://drive.google.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ pl: 2 }}
+                        >
+                            Google Drive
+                        </MenuItem>
+                        <MenuItem
+                            component="a"
+                            href="https://mail.google.com/mail/u/0/#inbox"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ pl: 2 }}
+                        >
+                            Gmail
+                        </MenuItem>
+                        <MenuItem
+                            component="a"
+                            href="https://notion.so"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ pl: 2 }}
+                        >
+                            Notion
+                        </MenuItem>
+                        <MenuItem
+                            component="a"
+                            href="https://sjsu.instructure.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ pl: 2 }}
+                        >
+                            SJSU Canvas
+                        </MenuItem>
+                    </MenuList>
                 </Box>
 
                 <Divider sx={{ my: 2, borderColor: '#fff' }} />
 
-                <MenuList>
-                    <MenuItem component={Link} to="/notes">Notes</MenuItem>
-                    <MenuItem component={Link} to="/scheduling">Scheduling</MenuItem>
-                    <MenuItem component={Link} to="/todo">Task Management</MenuItem>
-                </MenuList>
+                {/* Features */}
+                <Box sx={{ px: 2 }}>
+                    <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
+                        Features:
+                    </Typography>
+                    <MenuList>
+                        <MenuItem component={Link} to="/notes">Notes</MenuItem>
+                        <MenuItem component={Link} to="/scheduling">Scheduling</MenuItem>
+                        <MenuItem component={Link} to="/spotify">Spotify</MenuItem>
+                        <MenuItem component={Link} to="/todo">To-Do</MenuItem>
+                        <MenuItem component={Link} to="/timer">Timer</MenuItem>
+                    </MenuList>
+                </Box>
             </Drawer>
 
             <Main open={open} />

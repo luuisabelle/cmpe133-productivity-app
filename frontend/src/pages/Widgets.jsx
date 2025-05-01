@@ -5,6 +5,9 @@ import ToDo from './ToDo';
 import Spotify from './Spotify';
 import Scheduling from './Scheduling';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const WIDGET_WIDTH = 350;
 const GRID_SIZE = 20;
@@ -14,20 +17,30 @@ const snapToGrid = (x, y) => ({
     y: Math.round(y / GRID_SIZE) * GRID_SIZE,
 });
 
-function DraggableWidget({ id, position, children, isDragging }) {
-    const { attributes, listeners, setNodeRef, transform, isDragging: dragging } = useDraggable({ id });
+function DraggableWidget({
+                             id,
+                             position,
+                             children,
+                             activeId,
+                             zIndex,
+                             collapsed,
+                             onToggleCollapse,
+                         }) {
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
+    const isDragging = activeId === id;
 
     const style = {
         position: 'absolute',
         left: position.x + (transform?.x || 0),
         top: position.y + (transform?.y || 0),
-        zIndex: dragging ? 1000 : 10,
+        zIndex: isDragging ? 1000 : zIndex,
         width: id === 'scheduling' ? WIDGET_WIDTH + 30 : WIDGET_WIDTH,
         backgroundColor: 'white',
         border: '2px solid black',
         borderRadius: 10,
-        boxShadow: dragging ? '0 0 12px rgba(0,0,0,0.4)' : 'none',
-        transition: dragging ? 'none' : 'box-shadow 0.3s ease',
+        boxShadow: isDragging ? '0 0 12px rgba(0,0,0,0.4)' : 'none',
+        transition: isDragging ? 'none' : 'box-shadow 0.3s ease',
+        overflow: 'hidden',
     };
 
     const handleStyle = {
@@ -38,6 +51,9 @@ function DraggableWidget({ id, position, children, isDragging }) {
         userSelect: 'none',
         touchAction: 'none',
         fontWeight: 'bold',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     };
 
     const label = {
@@ -49,10 +65,21 @@ function DraggableWidget({ id, position, children, isDragging }) {
 
     return (
         <div ref={setNodeRef} style={style}>
-            <div {...listeners} {...attributes} style={handleStyle}>
-                :: {label}
+            <div style={handleStyle}>
+        <span {...listeners} {...attributes} style={{ flex: 1 }}>
+          :: {label}
+        </span>
+                <IconButton
+                    size="small"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleCollapse?.();
+                    }}
+                >
+                    {collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                </IconButton>
             </div>
-            <div style={{ padding: 10 }}>{children}</div>
+            {!collapsed && <div style={{ padding: 10 }}>{children}</div>}
         </div>
     );
 }
@@ -68,6 +95,20 @@ export default function Widgets() {
     const [positions, setPositions] = useState(() => {
         const saved = localStorage.getItem('widgetPositions');
         return saved ? JSON.parse(saved) : defaultPositions;
+    });
+
+    const [zIndexes, setZIndexes] = useState(() => ({
+        timer: 1,
+        scheduling: 2,
+        todo: 3,
+        spotify: 4,
+    }));
+
+    const [collapsedWidgets, setCollapsedWidgets] = useState({
+        timer: false,
+        scheduling: false,
+        todo: false,
+        spotify: false,
     });
 
     const [activeId, setActiveId] = useState(null);
@@ -87,12 +128,29 @@ export default function Widgets() {
             return updated;
         });
 
+        setZIndexes((prev) => {
+            const maxZ = Math.max(...Object.values(prev));
+            return { ...prev, [id]: maxZ + 1 };
+        });
+
         setActiveId(null);
     };
 
     const resetLayout = () => {
         localStorage.setItem('widgetPositions', JSON.stringify(defaultPositions));
         setPositions(defaultPositions);
+        setZIndexes({
+            timer: 1,
+            scheduling: 2,
+            todo: 3,
+            spotify: 4,
+        });
+        setCollapsedWidgets({
+            timer: false,
+            scheduling: false,
+            todo: false,
+            spotify: false,
+        });
     };
 
     return (
@@ -114,37 +172,29 @@ export default function Widgets() {
                 onDragStart={({ active }) => setActiveId(active.id)}
                 onDragEnd={handleDragEnd}
             >
-                <DraggableWidget
-                    id="timer"
-                    position={positions.timer}
-                    isDragging={activeId === 'timer'}
-                >
-                    <Timer />
-                </DraggableWidget>
-
-                <DraggableWidget
-                    id="scheduling"
-                    position={positions.scheduling}
-                    isDragging={activeId === 'scheduling'}
-                >
-                    <Scheduling />
-                </DraggableWidget>
-
-                <DraggableWidget
-                    id="todo"
-                    position={positions.todo}
-                    isDragging={activeId === 'todo'}
-                >
-                    <ToDo />
-                </DraggableWidget>
-
-                <DraggableWidget
-                    id="spotify"
-                    position={positions.spotify}
-                    isDragging={activeId === 'spotify'}
-                >
-                    <Spotify />
-                </DraggableWidget>
+                {['timer', 'scheduling', 'todo', 'spotify'].map((id) => (
+                    <DraggableWidget
+                        key={id}
+                        id={id}
+                        position={positions[id]}
+                        activeId={activeId}
+                        zIndex={zIndexes[id]}
+                        collapsed={collapsedWidgets[id]}
+                        onToggleCollapse={() =>
+                            setCollapsedWidgets((prev) => ({
+                                ...prev,
+                                [id]: !prev[id],
+                            }))
+                        }
+                    >
+                        {{
+                            timer: <Timer />,
+                            scheduling: <Scheduling />,
+                            todo: <ToDo />,
+                            spotify: <Spotify />,
+                        }[id]}
+                    </DraggableWidget>
+                ))}
             </DndContext>
         </>
     );
