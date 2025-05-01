@@ -206,6 +206,15 @@ export default function PersistentDrawerLeft( isSaving) {
                     >
                         Google Drive
                     </Typography>
+                    <Typography
+                    component="a"
+                    href="https://sjsu.instructure.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ display: 'block', mb: 1, color: 'white', cursor: 'pointer' }}
+                    >
+                    SJSU Canvas
+                </Typography>
                 </Box>
 
                 <Divider sx={{ my: 2, borderColor: '#fff' }} />
