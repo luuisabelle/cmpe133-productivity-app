@@ -3,7 +3,7 @@ import Scheduling from './pages/Scheduling';
 import HomePage from './pages/HomePage';
 import Notes from './pages/Notes';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import ToDo from "./pages/ToDo";
 import { Helmet } from "react-helmet";
@@ -14,37 +14,51 @@ import Timer from "./pages/Timer";
 import Spotify from './pages/Spotify';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
+import SignUp from "./pages/SignUp";
+import { useEffect, useState } from "react";
+import { useAuth } from "./contexts/AuthContext";
 
 function App() {
+
+  const { isAuthenticated } = useAuth();
+  const { loading } = useAuth();
 
   const theme = createTheme({
     palette: {
       primary: {
         main: common.black,
       },
-    },
+    }
   })
+
+  const navigate = useNavigate();
+
+  if (loading) {
+    return null
+  }
 
   return (
     <Grid container
     sx={{ minHeight: "100vh", flexGrow:1, width:"100%", padding:"20px" }} justifyContent="center" alignItems="center">
-      <Grid item sx={{ width: "100%" }}>
-      <Navbar ></Navbar>
+      <Grid item sx={{ width: "100%" }}> 
+        <Navbar/>
       </Grid>
       <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
     {/*<Paper elevation={3} sx={{ padding: "20px", textAlign: "center", width:"90vw", height:"90vh", overflow:"auto"}} justifyContent="center" alignItems="center">*/}
+    
       <Routes>
-        <Route path="/scheduling" element={<Scheduling/>}/>
-        <Route path="/notes" element={<Notes/>}>
-        <Route index element={<NoteTable/>} />
-        <Route path=":noteId" element={<Note/>}/>
+        <Route path="/scheduling" element={isAuthenticated ? <Scheduling /> : <Navigate to ="/signin" replace/>}/>
+        <Route path="/notes" element={isAuthenticated ? <Notes /> : <Navigate to ="/signin" replace/>}>
+          <Route index element={<NoteTable/>} />
+          <Route path=":noteId" element={<Note />}/>
         </Route>
-        <Route path="/todo" element={<ToDo/>}/>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/timer" element={<Timer />} />
-        <Route path="/spotify" element={<Spotify />} />
+        <Route path="/todo" element={isAuthenticated ? <ToDo /> : <Navigate to ="/signin" replace/>}/>
+        <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to ="/signin" replace/>}/>
+        <Route path="/timer" element={isAuthenticated ? <Timer /> : <Navigate to ="/signin" replace/>} />
+        <Route path="/spotify" element={isAuthenticated ? <Spotify /> : <Navigate to ="/signin" replace/>} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to ="/signin" replace/>} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       {/*</Paper>*/}
       </Grid>

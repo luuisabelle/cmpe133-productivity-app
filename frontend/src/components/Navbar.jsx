@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import MenuIcon from '@mui/icons-material/Menu';
-import { MenuItem, MenuList } from '@mui/material';
+import { Button, MenuItem, MenuList } from '@mui/material';
 import {Link} from 'react-router-dom';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import Avatar from '@mui/material/Avatar';
@@ -20,7 +20,8 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext';
 
 const drawerWidth = 240;
 
@@ -82,7 +83,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Navbar() {
+    const { isAuthenticated } = useAuth();
+    const { setIsAuthenticated } = useAuth();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -101,6 +104,7 @@ export default function PersistentDrawerLeft() {
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
+                    {isAuthenticated &&
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -110,18 +114,22 @@ export default function PersistentDrawerLeft() {
                     >
                         <MenuIcon />
                     </IconButton>
+                    }
                     <Box href="/" component="a" sx={{textDecoration:"none", cursor:"pointer", color:"inherit"}}> 
                     <Typography fontFamily= "serif" fontWeight="600" fontSize="25px" variant="h6" noWrap component="a">
                         Productivity App
                     </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
+                    {isAuthenticated &&
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Button onClick={() => setIsAuthenticated(false)}>Logout</Button>
                         <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
                         <Typography variant="body2" sx={{ color: 'white' }}>
                             Saved
                         </Typography>
                     </Box>
+                }
                 </Toolbar>
             </AppBar>
 
@@ -190,6 +198,10 @@ export default function PersistentDrawerLeft() {
                 <MenuItem component={Link} to="/notes">Notes</MenuItem>
                 <MenuItem component={Link} to="/scheduling" >Scheduling</MenuItem>
                 <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
+                <MenuItem component={Link} to="/timer" variant="contained">Timer</MenuItem>
+                <MenuItem component={Link} to="/todo" variant="contained">Spotify</MenuItem>
+                <MenuItem component={Link} to="/signup" variant="contained">Sign Up</MenuItem>
+                <MenuItem component={Link} to="/signin" variant="contained">Sign In</MenuItem>
                 </MenuList>
             </Drawer>
 

@@ -15,6 +15,7 @@ const Spotify = () => {
                 mt: 4,
             }}
         >
+            <title>Spotify</title>
             <Typography variant="h4" gutterBottom>
                 🎵 Spotify Player
             </Typography>

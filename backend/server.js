@@ -5,6 +5,8 @@ import { connectDB } from './config/db.js';
 import noteRoutes from './routes/note.route.js';
 import scheduleRoutes from './routes/schedule.route.js';
 import todoRoutes from './routes/todo.route.js';
+import userRoutes from './routes/user.route.js';
+import authRoutes from './routes/auth.routes.js'
  
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use(cors());
 app.use("/api/notes", noteRoutes);
 app.use("/api/schedules", scheduleRoutes);
 app.use("/api/todos", todoRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
     res.send("hi");

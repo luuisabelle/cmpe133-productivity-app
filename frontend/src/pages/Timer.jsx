@@ -49,6 +49,7 @@ const Timer = () => {
 
     return (
         <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <title>Timer</title>
             {!hasStarted && (
                 <>
                     <Typography gutterBottom>

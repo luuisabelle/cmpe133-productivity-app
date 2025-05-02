@@ -77,17 +77,17 @@ const handleNew = async() => {
 }
 
   return (
-    <>
+    <Box sx={{width:'100%'}}>
     <Button onClick={() => setCreateNew(true)} variant="contained" sx={{margin:'0', padding:'10px'}}><AddIcon/>new</Button>
     <Dialog open={createNew} onClose={closeDialog}>
         <DialogTitle>New Note</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{display:'flex', flexDirection:'column'}}>
             <TextField value={noteName} onChange={(e) => setNoteName(e.target.value)}></TextField>
-            <Button onClick={handleNew}>Save</Button>
-            <Button onClick={closeDialog}>Close</Button>
+            <Button onClick={handleNew} sx={{padding:2}}>Save</Button>
+            <Button onClick={closeDialog} sx={{padding:2}}>Close</Button>
         </DialogContent>
     </Dialog>
-    <TableContainer>
+    <TableContainer sx={{width:'60%'}}>
     <Table>
       <TableHead>
         <TableRow>
@@ -107,7 +107,7 @@ const handleNew = async() => {
       </TableBody>
       </Table>
       </TableContainer>
-      </>
+      </Box>
   )
 }
 

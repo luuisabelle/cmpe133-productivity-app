@@ -34,6 +34,7 @@ const Settings = () => {
                     width: '100%',
                 }}
             >
+                <title>Settings</title>
                 {selectedSection === 'preferences' && (
                     <>
                         <Typography variant="h6">Preferences</Typography>

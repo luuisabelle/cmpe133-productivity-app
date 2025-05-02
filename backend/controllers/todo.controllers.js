@@ -4,7 +4,7 @@ import Todo from "../models/todo.model.js";
 export const getAllTodos = async (req, res) => {
     try {
         const todos = await Todo.find({});
-        res.status(201).json({ success: true, data: todos});
+        res.status(200).json({ success: true, data: todos});
     } catch (error) {
         console.error("Cannot get todos.", error.message);
         res.status(500).json({ success: false, message: "Server Error"})
@@ -48,7 +48,7 @@ export const updateTodo = async (req, res) => {
 
     try {
         const newTodo = await Todo.findByIdAndUpdate(id, todo, {new:true});
-        res.status(200).json({ success: true, data: newTodo});
+        res.status(201).json({ success: true, data: newTodo});
     } catch(error) {
         res.status(500).json({ success: false, message: "Server Error"});
     }

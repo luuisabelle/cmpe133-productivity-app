@@ -4,7 +4,7 @@ import Schedule from "../models/schedule.model.js";
 export const getAllSchedules = async (req, res) => {
     try {
         const schedules = await Schedule.find({});
-        res.status(201).json({ success: true, data: schedules});
+        res.status(200).json({ success: true, data: schedules});
     } catch (error) {
         console.error("Cannot get schedules.", error.message);
         res.status(500).json({ success: false, message: "Server Error"})
@@ -48,7 +48,7 @@ export const updateSchedule = async (req, res) => {
 
     try {
         const newSchedule = await Schedule.findByIdAndUpdate(id, schedule, {new:true});
-        res.status(200).json({ success: true, data: newSchedule});
+        res.status(201).json({ success: true, data: newSchedule});
     } catch(error) {
         res.status(500).json({ success: false, message: "Server Error"});
     }

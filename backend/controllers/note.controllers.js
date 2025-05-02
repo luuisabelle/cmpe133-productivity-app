@@ -4,7 +4,7 @@ import Note from "../models/note.model.js";
 export const getAllNotes = async (req, res) => {
     try {
         const notes = await Note.find({});
-        res.status(201).json({ success: true, data: notes});
+        res.status(200).json({ success: true, data: notes});
     } catch (error) {
         console.error("Cannot get notes.", error.message);
         res.status(500).json({ success: false, message: "Server Error"})
@@ -15,7 +15,7 @@ export const getNote = async (req, res) => {
     try {
         const {id} = req.params;
         const note = await Note.findById(id);
-        res.status(201).json({ success: true, data: note});
+        res.status(200).json({ success: true, data: note});
     } catch (error) {
         console.error("Cannot get note.", error.message);
         res.status(500).json({ success: false, message: "Server Error"})
@@ -60,7 +60,7 @@ export const updateNote = async (req, res) => {
 
     try {
         const newNote = await Note.findByIdAndUpdate(id, note, {new:true});
-        res.status(200).json({ success: true, data: newNote});
+        res.status(201).json({ success: true, data: newNote});
     } catch(error) {
         res.status(500).json({ success: false, message: "Server Error"});
     }
