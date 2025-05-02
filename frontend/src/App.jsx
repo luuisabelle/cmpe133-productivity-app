@@ -15,9 +15,11 @@ import Spotify from './pages/Spotify';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
 import SignUp from "./pages/SignUp";
-import { useEffect, useState } from "react";
 import { useAuth } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Widgets from './pages/Widgets.jsx';
+import React, { useState, useEffect } from 'react';
+
 
 function App() {
 
@@ -27,6 +29,13 @@ function App() {
   useEffect(() => {
     console.log(isAuthenticated)
   })
+
+  const [isSavingTodo, setIsSavingTodo] = useState(false);
+  const [isSavingSchedule, setIsSavingSchedule] = useState(false);
+  const [isSavingNote, setIsSavingNote] = useState(false);
+
+  const isSaving = isSavingTodo || isSavingSchedule || isSavingNote;
+
 
   const theme = createTheme({
     palette: {
@@ -49,8 +58,6 @@ function App() {
         <Navbar/>
       </Grid>
       <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
-    {/*<Paper elevation={3} sx={{ padding: "20px", textAlign: "center", width:"90vw", height:"90vh", overflow:"auto"}} justifyContent="center" alignItems="center">*/}
-    
       <Routes>
         <Route element={<ProtectedRoute/>}>
         <Route path="/scheduling" element={<Scheduling />}/>
@@ -66,8 +73,8 @@ function App() {
         </Route>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/widgets" element={<Widgets />} />
       </Routes>
-      {/*</Paper>*/}
       </Grid>
       </Grid>
   )

@@ -16,6 +16,11 @@ const Calendar = ({onScheduleAdded}) => {
   const [startDateAndTime, setStartDateAndTime] = useState(new Date())
   const [endDateAndTime, setEndDateAndTime] = useState(new Date())
   const [title, setTitle] = useState("")
+  // TODO: Replace with Google login email
+  const [userEmail] = "testuser@gmail.com"; 
+  const [isSavingSchedule, setIsSavingSchedule] = useState(false);
+
+
 
   const handleAccept = async() => {
     try {
@@ -31,14 +36,15 @@ const Calendar = ({onScheduleAdded}) => {
     alert("Name of schedule is required!")
   }
   const token = localStorage.getItem('token')
-      const response = await fetch("http://localhost:5000/api/schedules", {
+  setIsSavingSchedule(true);    
+  const response = await fetch("http://localhost:5000/api/schedules", {
         method:"POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           title: title,
           start: combinedStartDateTime,
-          end: combinedEndDateTime 
-        }),
+          end: combinedEndDateTime,
+        }),        
       })
 
       if (onScheduleAdded) {
@@ -51,7 +57,9 @@ const Calendar = ({onScheduleAdded}) => {
       }
     }
     catch(error) {
-      console.error('Failed to save schedule', error)
+      console.error('Failed to save schedule', error);
+    }finally {
+        setIsSavingSchedule(false);
     }
   }
 

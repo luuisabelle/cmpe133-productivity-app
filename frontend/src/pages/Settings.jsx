@@ -17,12 +17,14 @@ import {
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import LanguageIcon from '@mui/icons-material/Language';
+import SecurityIcon from '@mui/icons-material/Security';
 
 const Settings = () => {
     const [selectedSection, setSelectedSection] = useState('preferences');
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState('minimalistic');
     const [language, setLanguage] = useState('en');
     const [autoTimezone, setAutoTimezone] = useState(true);
+    const [privacyConsent, setPrivacyConsent] = useState(true);
 
     const renderSection = () => {
         return (
@@ -47,8 +49,7 @@ const Settings = () => {
                                 onChange={(e) => setTheme(e.target.value)}
                                 sx={{ backgroundColor: '#1a1a1a', color: 'white' }}
                             >
-                                <MenuItem value="dark">Dark</MenuItem>
-                                <MenuItem value="light">Light</MenuItem>
+                                <MenuItem value="minimalistic">Minimalistic</MenuItem>
                             </Select>
                         </FormControl>
                     </>
@@ -67,7 +68,6 @@ const Settings = () => {
                                 sx={{ backgroundColor: '#1a1a1a', color: 'white' }}
                             >
                                 <MenuItem value="en">English</MenuItem>
-                                <MenuItem value="es">Spanish</MenuItem>
                             </Select>
                         </FormControl>
 
@@ -79,6 +79,26 @@ const Settings = () => {
                                 />
                             }
                             label="Set timezone automatically"
+                            sx={{ color: 'white' }}
+                        />
+                    </>
+                )}
+
+                {selectedSection === 'privacy' && (
+                    <>
+                        <Typography variant="h6">Privacy</Typography>
+                        <Typography variant="body2" sx={{ color: '#ccc' }}>
+                            Manage your data preferences below.
+                        </Typography>
+
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={privacyConsent}
+                                    onChange={() => setPrivacyConsent(!privacyConsent)}
+                                />
+                            }
+                            label="Do not sell my data"
                             sx={{ color: 'white' }}
                         />
                     </>
@@ -102,7 +122,7 @@ const Settings = () => {
                 elevation={3}
                 sx={{
                     display: 'flex',
-                    width: '800px', // Total width (sidebar + content)
+                    width: '800px',
                     minHeight: '500px',
                     backgroundColor: '#111',
                     color: 'white',
@@ -110,7 +130,6 @@ const Settings = () => {
                     overflow: 'hidden',
                 }}
             >
-
                 <Box
                     sx={{
                         width: 300,
@@ -132,6 +151,7 @@ const Settings = () => {
                             </ListItemIcon>
                             <ListItemText primary="Preferences" />
                         </ListItemButton>
+
                         <ListItemButton
                             selected={selectedSection === 'language'}
                             onClick={() => setSelectedSection('language')}
@@ -141,12 +161,22 @@ const Settings = () => {
                             </ListItemIcon>
                             <ListItemText primary="Language & Time" />
                         </ListItemButton>
+
+                        <ListItemButton
+                            selected={selectedSection === 'privacy'}
+                            onClick={() => setSelectedSection('privacy')}
+                        >
+                            <ListItemIcon>
+                                <SecurityIcon sx={{ color: 'white' }} />
+                            </ListItemIcon>
+                            <ListItemText primary="Privacy" />
+                        </ListItemButton>
                     </List>
                 </Box>
 
                 <Box
                     sx={{
-                        width: 500, // Fixed width
+                        width: 500,
                         p: 4,
                         backgroundColor: '#111',
                         display: 'flex',

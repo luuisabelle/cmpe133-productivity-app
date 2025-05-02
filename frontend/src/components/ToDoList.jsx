@@ -12,10 +12,15 @@ const [todo, setTodo] = useState('')
 const [editedTodos, setEditedTodos] = useState({})
 const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
+ //TODO: Replace with Google login email
+const [userEmail] = "testuser@gmail.com";
+const [isSavingTodo, setIsSavingTodo] = useState(false);
+
 
 const handleNew = async() => {
   const token = localStorage.getItem('token')
     try {
+      setIsSavingTodo(true);
       const response = await fetch("http://localhost:5000/api/todos", {
         method:"POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -23,6 +28,7 @@ const handleNew = async() => {
           todo: todo
         }),
       })
+      setIsSavingTodo(false);
       if (!response.ok) {
         throw new Error('Failed to save task')
       }

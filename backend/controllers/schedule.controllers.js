@@ -12,6 +12,19 @@ export const getUserSchedules = async (req, res) => {
     }
 };
 
+/*export const getSchedulesByUser = async (req, res) => {
+    const email = req.query.email;
+  
+    try {
+      const schedules = await Schedule.find({ userEmail: email });
+      res.status(200).json({ success: true, data: schedules });
+    } catch (error) {
+      console.error("Cannot get schedules", error.message);
+      res.status(500).json({ success: false, message: "Server Error" });
+    }
+  };*/
+  
+
 export const createSchedule = async (req, res) => {
     try {
     const {title, start, end} = req.body;
