@@ -1,9 +1,10 @@
 import mongoose, { SchemaTypes } from "mongoose";
 import Schedule from "../models/schedule.model.js";
 
-export const getAllSchedules = async (req, res) => {
+export const getUserSchedules = async (req, res) => {
     try {
-        const schedules = await Schedule.find({});
+        const userId = req.userId
+        const schedules = await Schedule.find({userId});
         res.status(200).json({ success: true, data: schedules});
     } catch (error) {
         console.error("Cannot get schedules.", error.message);
@@ -12,10 +13,9 @@ export const getAllSchedules = async (req, res) => {
 };
 
 export const createSchedule = async (req, res) => {
-    const schedule = req.body;
-    const newSchedule = new Schedule(schedule);
     try {
-        await newSchedule.save();
+    const {title, start, end} = req.body;
+    const newSchedule = await Schedule.create({title, start, end, userId: req.userId});
         res.status(201).json({ success: true, data: newSchedule});
     } catch (error) {
         console.error("Cannot create new schedule.", error.message);

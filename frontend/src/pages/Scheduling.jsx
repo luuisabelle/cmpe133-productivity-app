@@ -8,7 +8,12 @@ const Scheduling = () => {
 
   const fetchSchedules = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/schedules");
+      const token = localStorage.getItem('token')
+        const response = await fetch("http://localhost:5000/api/schedules", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }}
+        );
         const data = await response.json();
         if (data.success) {
           setSchedules(data.data)

@@ -1,12 +1,13 @@
 import express from "express";
-import { createTodo, deleteTodo, getAllTodos, updateTodo } from "../controllers/todo.controllers.js";
+import { createTodo, deleteTodo, getUserTodos, updateTodo } from "../controllers/todo.controllers.js";
 import { get } from "mongoose";
+import { authenticate } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.get("/", getAllTodos);
+router.get("/", authenticate, getUserTodos);
 
-router.post("/", createTodo);
+router.post("/", authenticate, createTodo);
 
 router.delete("/:id", deleteTodo);
 

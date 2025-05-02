@@ -1,9 +1,10 @@
 import mongoose, { SchemaTypes } from "mongoose";
 import Todo from "../models/todo.model.js";
 
-export const getAllTodos = async (req, res) => {
+export const getUserTodos = async (req, res) => {
     try {
-        const todos = await Todo.find({});
+        const userId = req.userId
+        const todos = await Todo.find({userId});
         res.status(200).json({ success: true, data: todos});
     } catch (error) {
         console.error("Cannot get todos.", error.message);
@@ -12,10 +13,9 @@ export const getAllTodos = async (req, res) => {
 };
 
 export const createTodo = async (req, res) => {
-    const todo = req.body;
-    const newTodo = new Todo(todo);
     try {
-        await newTodo.save();
+    const {todo} = req.body;
+    const newTodo = await Todo.create({todo, userId: req.userId});
         res.status(201).json({ success: true, data: newTodo});
     } catch (error) {
         console.error("Cannot create new todo.", error.message);

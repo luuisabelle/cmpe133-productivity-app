@@ -11,6 +11,17 @@ export const getAllNotes = async (req, res) => {
     }
 };
 
+export const getUserNotes = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const notes = await Note.find({userId});
+        res.status(200).json({ success: true, data: notes});
+    } catch (error) {
+        console.error("Cannot get notes.", error.message);
+        res.status(500).json({ success: false, message: "Server Error"})
+    }
+};
+
 export const getNote = async (req, res) => {
     try {
         const {id} = req.params;
@@ -24,12 +35,12 @@ export const getNote = async (req, res) => {
 
 
 export const createNote = async (req, res) => {
-    const note = req.body;
-    const newNote = new Note(note);
-    try {
-        await newNote.save();
+    try{
+    const { name, content } = req.body;
+    const newNote = await Note.create({name, content, userId: req.userId});
         res.status(201).json({ success: true, data: newNote});
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Cannot create new note.", error.message);
         res.status(500).json({ success: false, message: "Server Error"})
     }

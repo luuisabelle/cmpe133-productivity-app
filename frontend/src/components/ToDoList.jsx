@@ -14,10 +14,11 @@ const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
 
 const handleNew = async() => {
+  const token = localStorage.getItem('token')
     try {
       const response = await fetch("http://localhost:5000/api/todos", {
         method:"POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           todo: todo
         }),
@@ -51,7 +52,12 @@ const handleNew = async() => {
   
   const fetchTodos = async () => {
       try {
-          const response = await fetch("http://localhost:5000/api/todos");
+        const token = localStorage.getItem('token')
+          const response = await fetch("http://localhost:5000/api/todos", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
           const data = await response.json();
           if (data.success) {
             setTodos(data.data)

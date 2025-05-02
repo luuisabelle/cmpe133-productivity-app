@@ -14,7 +14,11 @@ const scheduleSchema = new mongoose.Schema({
     end: {
         type: Date,
         required: false
-    }
+    },
+    userId: {
+            type: mongoose.Schema.Types.ObjectId, 
+            required: true
+        }
 
 }, {
     timestamps: true
