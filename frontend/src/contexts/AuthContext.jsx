@@ -47,6 +47,41 @@ const AuthProvider = ({ children }) => {
       verifyToken()
   }, [token]); 
 
+  const googleSignIn = async (credentialResponse) => {
+    try {
+          setLoading(true)
+            const response = await fetch("http://localhost:5000/api/auth/google", {
+                method:"POST",
+                headers: { 
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${credentialResponse.credential}`
+              },
+              referrerPolicy: 'strict-origin-when-cross-origin'
+              })
+              const data = await response.json()
+
+              if (response.ok) {
+                localStorage.setItem('token', data.token)
+                setToken(data.token)
+                setCurrentUser(data.user)
+                setIsAuthenticated(true)
+                navigate('/')
+                return true;
+              }
+              setLoading(false)
+              return false;
+        }
+        catch(error) {
+            console.error('Failed to signup user', error)
+            setLoading(false)
+            localStorage.removeItem('token');
+            setToken(null);
+            setCurrentUser(null);
+            setIsAuthenticated(false);
+            return false;
+        }
+  }
+
     const signup = async(username, password) => {
         try {
           setLoading(true)
@@ -115,7 +150,7 @@ const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{currentUser, token, login, signup, logout, isAuthenticated, setIsAuthenticated, loading}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{currentUser, token, login, signup, logout, isAuthenticated, setIsAuthenticated, loading, googleSignIn}}>{children}</AuthContext.Provider>
     )
 }
 

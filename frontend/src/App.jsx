@@ -17,11 +17,16 @@ import Settings from './pages/Settings';
 import SignUp from "./pages/SignUp";
 import { useEffect, useState } from "react";
 import { useAuth } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
   const { isAuthenticated } = useAuth();
   const { loading } = useAuth();
+
+  useEffect(() => {
+    console.log(isAuthenticated)
+  })
 
   const theme = createTheme({
     palette: {
@@ -47,17 +52,19 @@ function App() {
     {/*<Paper elevation={3} sx={{ padding: "20px", textAlign: "center", width:"90vw", height:"90vh", overflow:"auto"}} justifyContent="center" alignItems="center">*/}
     
       <Routes>
-        <Route path="/scheduling" element={isAuthenticated ? <Scheduling /> : <Navigate to ="/signin" replace/>}/>
-        <Route path="/notes" element={isAuthenticated ? <Notes /> : <Navigate to ="/signin" replace/>}>
+        <Route element={<ProtectedRoute/>}>
+        <Route path="/scheduling" element={<Scheduling />}/>
+        <Route path="/notes" element={<Notes />}>
           <Route index element={<NoteTable/>} />
           <Route path=":noteId" element={<Note />}/>
         </Route>
-        <Route path="/todo" element={isAuthenticated ? <ToDo /> : <Navigate to ="/signin" replace/>}/>
-        <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to ="/signin" replace/>}/>
-        <Route path="/timer" element={isAuthenticated ? <Timer /> : <Navigate to ="/signin" replace/>} />
-        <Route path="/spotify" element={isAuthenticated ? <Spotify /> : <Navigate to ="/signin" replace/>} />
+        <Route path="/todo" element={<ToDo />}/>
+        <Route path="/" element={<HomePage />}/>
+        <Route path="/timer" element={<Timer />} />
+        <Route path="/spotify" element={<Spotify />} />
+        <Route path="/settings" element={<Settings/>} />
+        </Route>
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/settings" element={isAuthenticated ? <Settings /> : <Navigate to ="/signin" replace/>} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
       {/*</Paper>*/}

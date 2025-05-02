@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const SignUp = () => {
   const [pass, setPass] = useState('')
   const [dialog, setDialog] = useState(false)
   const [users, setUsers] = useState([])
-  const { signup } = useAuth()
+  const { signup, googleSignIn } = useAuth()
 
   const handleSignup = async () => {
    const success = await signup(username, pass)
@@ -36,7 +37,8 @@ const SignUp = () => {
     <TextField label="Password" type="password" value={pass} onChange={(e) => setPass(e.target.value)}/>
       <Link to ="/signin">Already have an account?</Link>
     <Button variant="contained" onClick={handleSignup}>Register</Button>
-    <Stack spacing={2} mt={3}>
+    <GoogleLogin onSuccess={googleSignIn}/>
+    {/*<Stack spacing={2} mt={3}>
                 <Button
                     variant="outlined"
                     fullWidth
@@ -48,7 +50,7 @@ const SignUp = () => {
                 >
                     Sign in with Google
                 </Button>
-            </Stack>
+            </Stack>*/}
     </Paper>
     </Box>
   )

@@ -91,6 +91,12 @@ export default function Navbar() {
     const navigate = useNavigate();
     const [showTimer, setShowTimer] = React.useState(true);
 
+    React.useEffect(() => {
+        if (!isAuthenticated) {
+            handleDrawerClose()
+        }
+    },[isAuthenticated])
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -123,7 +129,6 @@ export default function Navbar() {
                     <Box sx={{ flexGrow: 1 }} />
                     {isAuthenticated &&
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Button onClick={() => setIsAuthenticated(false)}>Logout</Button>
                         <CloudDoneIcon fontSize="small" sx={{ color: 'white' }} />
                         <Typography variant="body2" sx={{ color: 'white' }}>
                             Saved
@@ -200,8 +205,7 @@ export default function Navbar() {
                 <MenuItem component={Link} to="/todo" variant="contained">Task Manangement</MenuItem>
                 <MenuItem component={Link} to="/timer" variant="contained">Timer</MenuItem>
                 <MenuItem component={Link} to="/todo" variant="contained">Spotify</MenuItem>
-                <MenuItem component={Link} to="/signup" variant="contained">Sign Up</MenuItem>
-                <MenuItem component={Link} to="/signin" variant="contained">Sign In</MenuItem>
+                <MenuItem onClick={() => setIsAuthenticated(false)}>Logout</MenuItem>
                 </MenuList>
             </Drawer>
 
