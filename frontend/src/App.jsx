@@ -26,16 +26,11 @@ function App() {
   const { isAuthenticated } = useAuth();
   const { loading } = useAuth();
 
-  useEffect(() => {
-    console.log(isAuthenticated)
-  })
-
   const [isSavingTodo, setIsSavingTodo] = useState(false);
   const [isSavingSchedule, setIsSavingSchedule] = useState(false);
   const [isSavingNote, setIsSavingNote] = useState(false);
 
   const isSaving = isSavingTodo || isSavingSchedule || isSavingNote;
-
 
   const theme = createTheme({
     palette: {
@@ -52,31 +47,33 @@ function App() {
   }
 
   return (
-    <Grid container
-    sx={{ minHeight: "100vh", flexGrow:1, width:"100%", padding:"20px" }} justifyContent="center" alignItems="center">
-      <Grid item sx={{ width: "100%" }}> 
-        <Navbar isSaving={isSaving} />
-      </Grid>
-      <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
-      <Routes>
-        <Route element={<ProtectedRoute/>}>
-        <Route path="/scheduling" element={<Scheduling />}/>
-        <Route path="/notes" element={<Notes />}>
-          <Route index element={<NoteTable/>} />
-          <Route path=":noteId" element={<Note />}/>
-        </Route>
-        <Route path="/todo" element={<ToDo />}/>
-        <Route path="/" element={<HomePage />}/>
-        <Route path="/timer" element={<Timer />} />
-        <Route path="/spotify" element={<Spotify />} />
-        <Route path="/settings" element={<Settings/>} />
-        </Route>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/widgets" element={<Widgets />} />
-      </Routes>
-      </Grid>
-      </Grid>
+    <>
+      <Grid container
+        sx={{ minHeight: "100vh", flexGrow:1, width:"100%", padding:"20px" }} justifyContent="center" alignItems="center">
+        <Grid item sx={{ width: "100%" }}> 
+          <Navbar isSaving={isSaving} />
+        </Grid>
+        <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
+        <Routes>
+          <Route element={<ProtectedRoute/>}>
+          <Route path="/scheduling" element={<Scheduling setIsSavingSchedule={setIsSavingSchedule} />} />
+          <Route path="/notes" element={<Notes setIsSavingNote={setIsSavingNote} />}>
+            <Route index element={<NoteTable setIsSavingNote={setIsSavingNote}/>} />
+            <Route path=":noteId" element={<Note />}/>
+          </Route>
+          <Route path="/todo" element={<ToDo setIsSavingTodo={setIsSavingTodo} />}/>
+          <Route path="/" element={<HomePage setIsSavingTodo={setIsSavingTodo} setIsSavingSchedule={setIsSavingSchedule} />} />
+          <Route path="/timer" element={<Timer />} />
+          <Route path="/spotify" element={<Spotify />} />
+          <Route path="/settings" element={<Settings/>} />
+          </Route>
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/widgets" element={<Widgets setIsSavingTodo={setIsSavingTodo} />} />
+        </Routes>
+        </Grid>
+        </Grid>
+    </>
   )
 }
 

@@ -3,7 +3,7 @@ import Calendar from '../components/Calendar'
 import { Box } from '@mui/material'
 import ScheduleList from '../components/ScheduleList'
 
-const Scheduling = () => {
+const Scheduling = ({ setIsSavingSchedule }) => {
   const [schedules, setSchedules] = useState([]);
 
   const fetchSchedules = async () => {
@@ -36,7 +36,7 @@ useEffect(() => {
     <>
     <title>Schedules</title>
     <Box>
-    <Calendar onScheduleAdded={fetchSchedules}/>
+    <Calendar onScheduleAdded={fetchSchedules} setIsSavingSchedule={setIsSavingSchedule}/>
     <br></br>
     <ScheduleList setSchedules={setSchedules} schedules={schedules} fetchSchedules={fetchSchedules}/>
     </Box>

@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Checkbox from '@mui/material/Checkbox'
 
-const ToDoList = () => {
+const ToDoList = ({ setIsSavingTodo = () => {} }) => {
 const [todos, setTodos] = useState([])
 const [todo, setTodo] = useState('')
 const [editedTodos, setEditedTodos] = useState({})
@@ -14,33 +14,33 @@ const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
  //TODO: Replace with Google login email
 const [userEmail] = "testuser@gmail.com";
-const [isSavingTodo, setIsSavingTodo] = useState(false);
-
 
 const handleNew = async() => {
+  setIsSavingTodo(true);
   const token = localStorage.getItem('token')
-    try {
-      setIsSavingTodo(true);
-      const response = await fetch("http://localhost:5000/api/todos", {
-        method:"POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          todo: todo
-        }),
-      })
-      setIsSavingTodo(false);
-      if (!response.ok) {
-        throw new Error('Failed to save task')
-      }
-      setTodo('')
-      fetchTodos();
+  try {
+    const response = await fetch("http://localhost:5000/api/todos", {
+      method:"POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        todo: todo
+      }),
+    })
+    if (!response.ok) {
+      throw new Error('Failed to save task')
     }
-    catch(error) {
-      console.error('Failed to save task', error)
-    }
+    setTodo('')
+    fetchTodos();
+    await new Promise(r => setTimeout(r, 300));
   }
+  catch(error) {
+    console.error('Failed to save task', error)
+  } finally {
+    setIsSavingTodo(false);
+  }
+}
   useEffect(() => {
-      fetchTodos();
+    fetchTodos();
   }, [])
 
   const handleChange = async(id, value) => {

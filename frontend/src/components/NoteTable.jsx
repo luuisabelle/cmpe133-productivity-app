@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from '../contexts/AuthContext';
 
-const NoteTable = () => {
+const NoteTable = ({ setIsSavingNote = () => {} }) => {
 const [notes, setNotes] = useState([])
 const [createNew, setCreateNew] = useState(false)
 const [noteName, setNoteName] = useState('')
@@ -14,10 +14,6 @@ const [noteContent, setNoteContent] = useState('')
 const [id, setId] = useState(null)
  //TODO: Replace with Google login email
 const [userEmail] = "testuser@gmail.com";
-const [isSavingNote, setIsSavingNote] = useState(false);
-
-
-
 
 const handleNew = async() => {
     try {

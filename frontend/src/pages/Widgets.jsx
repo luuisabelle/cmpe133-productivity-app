@@ -84,7 +84,7 @@ function DraggableWidget({
     );
 }
 
-export default function Widgets() {
+export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
     const defaultPositions = {
         timer: { x: 100, y: 100 },
         scheduling: { x: 510, y: 100 },
@@ -189,8 +189,8 @@ export default function Widgets() {
                     >
                         {{
                             timer: <Timer />,
-                            scheduling: <Scheduling />,
-                            todo: <ToDo />,
+                            scheduling: <Scheduling setIsSavingSchedule={setIsSavingSchedule} />,
+                            todo: <ToDo setIsSavingTodo={setIsSavingTodo} />,
                             spotify: <Spotify />,
                         }[id]}
                     </DraggableWidget>
