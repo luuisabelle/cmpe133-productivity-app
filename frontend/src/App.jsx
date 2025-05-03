@@ -55,7 +55,7 @@ function App() {
     <Grid container
     sx={{ minHeight: "100vh", flexGrow:1, width:"100%", padding:"20px" }} justifyContent="center" alignItems="center">
       <Grid item sx={{ width: "100%" }}> 
-        <Navbar/>
+        <Navbar isSaving={isSaving} />
       </Grid>
       <Grid item container sx={{ minHeight: "100vh",padding: "20px", flexGrow:1}} justifyContent="center" alignItems="center">
       <Routes>

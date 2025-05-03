@@ -75,7 +75,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
 }));
 
-export default function Navbar(isSaving) {
+export default function Navbar({ isSaving }) {
     const { isAuthenticated } = useAuth();
     const { setIsAuthenticated } = useAuth();
     const theme = useTheme();
