@@ -1,11 +1,11 @@
 import React from 'react'
 import ToDoList from '../components/ToDoList'
 
-const ToDo = () => {
+const ToDo = ({ setIsSavingTodo }) => {
   return (
     <>
     <title>Tasks</title>
-    <ToDoList></ToDoList>
+    <ToDoList setIsSavingTodo={setIsSavingTodo}></ToDoList>
     </>
   )
 }

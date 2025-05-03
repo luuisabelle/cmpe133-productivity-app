@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { TextField } from '@mui/material';
 
 
-const Calendar = ({onScheduleAdded}) => {
+const Calendar = ({onScheduleAdded, setIsSavingSchedule = () => {} }) => {
   const [selectedDate, setSelectedDate] = useState(dayjs())
   const [startTime, setStartTime] = useState(dayjs())
   const [endTime, setEndTime] = useState(startTime)
@@ -18,7 +18,6 @@ const Calendar = ({onScheduleAdded}) => {
   const [title, setTitle] = useState("")
   // TODO: Replace with Google login email
   const [userEmail] = "testuser@gmail.com"; 
-  const [isSavingSchedule, setIsSavingSchedule] = useState(false);
 
 
 

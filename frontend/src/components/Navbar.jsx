@@ -75,7 +75,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'space-between',
 }));
 
-export default function Navbar(isSaving) {
+export default function Navbar({ isSaving }) {
     const { isAuthenticated, logout } = useAuth();
     const { setIsAuthenticated } = useAuth();
     const theme = useTheme();
@@ -156,7 +156,7 @@ export default function Navbar(isSaving) {
                 </Toolbar>
             </AppBar>
 
-            <Drawer
+            <Drawer 
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -172,7 +172,7 @@ export default function Navbar(isSaving) {
                 open={open}
             >
                 <DrawerHeader>
-                    <IconButton component={Link} to="/" sx={{ color: 'white', ml: 1 }}>
+                    <IconButton onClick={handleDrawerClose} component={Link} to="/" sx={{ color: 'white', ml: 1 }}>
                         <HomeIcon />
                     </IconButton>
                     <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
@@ -185,7 +185,7 @@ export default function Navbar(isSaving) {
                     <Avatar alt="Google User" sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }} />
                     <Typography variant="subtitle1">Google User</Typography>
 
-                    <List sx={{ mt: 2 }}>
+                    <List sx={{ mt: 2 }} onClick={handleDrawerClose}>
                         <ListItemButton onClick={() => navigate('/settings')} sx={{ border: '1px solid white', borderRadius: 1 }}>
                             <ListItemIcon>
                                 <SettingsIcon sx={{ color: 'white' }} />
@@ -200,7 +200,7 @@ export default function Navbar(isSaving) {
                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
                         Linked Accounts:
                     </Typography>
-                    <MenuList>
+                    <MenuList onClick={handleDrawerClose}>
                         <MenuItem
                             component="a"
                             href="https://github.com/"
@@ -256,7 +256,7 @@ export default function Navbar(isSaving) {
                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
                         Features:
                     </Typography>
-                    <MenuList>
+                    <MenuList onClick={handleDrawerClose}>
                         <MenuItem component={Link} to="/notes">Notes</MenuItem>
                         <MenuItem component={Link} to="/scheduling">Scheduling</MenuItem>
                         <MenuItem component={Link} to="/spotify">Spotify</MenuItem>
