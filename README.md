@@ -6,6 +6,7 @@ How to build and run this project:
 5. to enable AI chatbot feature, create ".env" file in the "./frontend/" directory and add your OpenAI API key: VITE_OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Libraries/Packages (can get these from the instructions above):
+
 Backend
 - MongoDB
 - Mongoose
