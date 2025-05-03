@@ -4,6 +4,7 @@ import Timer from './Timer';
 import ToDo from './ToDo';
 import Spotify from './Spotify';
 import Scheduling from './Scheduling';
+import NoteTable from '../components/NoteTable'
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -61,6 +62,7 @@ function DraggableWidget({
         todo: 'To-Do',
         spotify: 'Spotify',
         scheduling: 'Scheduling',
+        notes: 'Notes'
     }[id] || id;
 
     return (
@@ -90,6 +92,7 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
         scheduling: { x: 510, y: 100 },
         todo: { x: 940, y: 100 },
         spotify: { x: 100, y: 470 },
+        notes: { x: 940, y: 470 }
     };
 
     const [positions, setPositions] = useState(() => {
@@ -102,6 +105,7 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
         scheduling: 2,
         todo: 3,
         spotify: 4,
+        notes: 5
     }));
 
     const [collapsedWidgets, setCollapsedWidgets] = useState({
@@ -109,6 +113,7 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
         scheduling: false,
         todo: false,
         spotify: false,
+        notes: false
     });
 
     const [activeId, setActiveId] = useState(null);
@@ -144,12 +149,14 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
             scheduling: 2,
             todo: 3,
             spotify: 4,
+            notes: 5
         });
         setCollapsedWidgets({
             timer: false,
             scheduling: false,
             todo: false,
             spotify: false,
+            notes: false
         });
     };
 
@@ -172,7 +179,7 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
                 onDragStart={({ active }) => setActiveId(active.id)}
                 onDragEnd={handleDragEnd}
             >
-                {['timer', 'scheduling', 'todo', 'spotify'].map((id) => (
+                {['timer', 'scheduling', 'todo', 'spotify', 'notes'].map((id) => (
                     <DraggableWidget
                         key={id}
                         id={id}
@@ -192,6 +199,7 @@ export default function Widgets({ setIsSavingTodo, setIsSavingSchedule }) {
                             scheduling: <Scheduling setIsSavingSchedule={setIsSavingSchedule} />,
                             todo: <ToDo setIsSavingTodo={setIsSavingTodo} />,
                             spotify: <Spotify />,
+                            notes: <NoteTable/>
                         }[id]}
                     </DraggableWidget>
                 ))}

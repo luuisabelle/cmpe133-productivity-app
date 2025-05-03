@@ -24,6 +24,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useAuth } from '../contexts/AuthContext';
+import defaultAvatar from '../assets/default.jpg'
 
 const drawerWidth = 240;
 
@@ -76,7 +77,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Navbar({ isSaving }) {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, currentUser } = useAuth();
     const { setIsAuthenticated } = useAuth();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -182,8 +183,8 @@ export default function Navbar({ isSaving }) {
 
                 {/* Profile */}
                 <Box sx={{ textAlign: 'center', p: 2 }}>
-                    <Avatar alt="Google User" sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }} />
-                    <Typography variant="subtitle1">Google User</Typography>
+                    <Avatar src={currentUser?.picture || defaultAvatar} alt="Google User" sx={{ width: 56, height: 56, mx: 'auto', mb: 1 }} />
+                    <Typography variant="subtitle1">{currentUser?.username}</Typography>
 
                     <List sx={{ mt: 2 }} onClick={handleDrawerClose}>
                         <ListItemButton onClick={() => navigate('/settings')} sx={{ border: '1px solid white', borderRadius: 1 }}>
@@ -262,8 +263,14 @@ export default function Navbar({ isSaving }) {
                         <MenuItem component={Link} to="/spotify">Spotify</MenuItem>
                         <MenuItem component={Link} to="/todo">To-Do</MenuItem>
                         <MenuItem component={Link} to="/timer">Timer</MenuItem>
-                
+                        <Divider sx={{ my: 2, borderColor: '#fff' }} />
+                        <Box >
+                        <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
+                <MenuList >
                 <MenuItem onClick={logout}>Logout</MenuItem>
+                </MenuList>
+                </Typography>
+                </Box>
                 </MenuList>
                 </Box>
             </Drawer>

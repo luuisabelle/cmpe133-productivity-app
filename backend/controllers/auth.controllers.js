@@ -15,7 +15,7 @@ export const googleSignIn = async(req, res) => {
     });
     
     const payload = ticket.getPayload();
-    const { email, name, sub: googleId } = payload;
+    const { email, name, sub: googleId, picture } = payload;
 
     let user = await User.findOne({ 
         $or: [{ email }, { googleId }] 
@@ -26,7 +26,7 @@ export const googleSignIn = async(req, res) => {
         return res.status(200).json({ 
             success: true, 
             token,
-            user: { _id: user._id, username: user.username, email: user.email }
+            user: { _id: user._id, username: user.username, email: user.email, picture: user.picture }
         });
     }
 
@@ -35,7 +35,8 @@ export const googleSignIn = async(req, res) => {
         username,
         email,
         googleId,
-        authMethod: 'google'
+        authMethod: 'google',
+        picture
     });
 
     await user.save();
@@ -44,7 +45,7 @@ export const googleSignIn = async(req, res) => {
     return res.status(200).json({ 
         success: true, 
         token,
-        user: { _id: user._id, username: user.username, email: user.email },
+        user: { _id: user._id, username: user.username, email: user.email, picture: user.picture },
         isNewUser: true
     });
 

@@ -90,7 +90,7 @@ const handleNew = async() => {
 }
 
   return (
-    <Box sx={{width:'100%'}}>
+    <Box align='center' sx={{width:'100%'}}>
     <Button onClick={() => setCreateNew(true)} variant="contained" sx={{margin:'0', padding:'10px'}}><AddIcon/>new</Button>
     <Dialog open={createNew} onClose={closeDialog}>
         <DialogTitle>New Note</DialogTitle>

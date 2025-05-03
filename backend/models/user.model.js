@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
         type: String, 
         enum: ['local', 'google'], 
         default: 'local' 
+    },
+    picture: {
+        type: String
     }
 
 }, {
