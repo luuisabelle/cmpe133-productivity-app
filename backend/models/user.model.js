@@ -23,7 +23,9 @@ const userSchema = new mongoose.Schema({
     },
     picture: {
         type: String
-    }
+    },
+    spotifyAccessToken: String,
+    spotifyRefreshToken: String,
 
 }, {
     timestamps: true
