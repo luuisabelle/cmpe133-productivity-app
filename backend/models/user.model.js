@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         type: String, 
         enum: ['local', 'google'], 
         default: 'local' 
-    }
+    },
     spotifyAccessToken: String,
     spotifyRefreshToken: String,
 

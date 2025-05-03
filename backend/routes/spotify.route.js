@@ -1,7 +1,7 @@
 import express from "express";
-import { authenticate } from "../middlewares/auth.js";
+import { authenticate, refreshSpotifyToken } from "../middlewares/auth.js";
 import { getAuthURL, callback, playTrack } from "../controllers/spotify.controllers.js";
-import { refreshSpotifyToken } from "../middlewares/spotifyAuth.js";
+
 
 
 const router = express.Router();
