@@ -31,8 +31,9 @@ export const getAuthURL = (req, res) => {
     response_type: "code",
     client_id: process.env.SPOTIFY_CLIENT_ID,
     scope: scopes,
-    redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-    state: req.userId, // From JWT middleware
+    redirect_uri: `http://127.0.0.1:${process.env.PORT || 5000}/api/spotify/callback`,
+    state: req.userId,
+
   })}`;
   res.json({ url });
 };

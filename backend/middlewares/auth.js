@@ -28,7 +28,7 @@ export const refreshSpotifyToken = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Token refresh failed:", error);
-    next(); // Continue even if refresh fails
+    next(); //Continue, even if  the refresh fails
   }
 };
 export const authenticate = async (req, res, next) => {
