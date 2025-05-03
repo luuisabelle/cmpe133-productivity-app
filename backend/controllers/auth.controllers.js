@@ -22,7 +22,7 @@ export const googleSignIn = async(req, res) => {
     });
 
     if (user) {
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         return res.status(200).json({ 
             success: true, 
             token,
@@ -40,7 +40,7 @@ export const googleSignIn = async(req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     return res.status(200).json({ 
         success: true, 
         token,
@@ -67,7 +67,7 @@ export const signup = async(req, res) => {
     const hashedPass = await bcrypt.hash(password, 10)
     const newUser = new User({ username, password: hashedPass });
 
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn:'7d' });
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET);
 
     await newUser.save();
     return res.status(201).json({ success: true, token, user: {_id:newUser._id,username:newUser.username} });
@@ -87,7 +87,7 @@ export const login = async(req, res) => {
         if (!match) {
             return res.status(401).json({ success: false, message: "Invalid credentials" });
         }
-        const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET, { expiresIn:'7d' });
+        const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET);
         return res.status(200).json({ 
             success: true, 
             token,

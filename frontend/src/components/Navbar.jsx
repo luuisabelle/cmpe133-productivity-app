@@ -76,7 +76,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Navbar(isSaving) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const { setIsAuthenticated } = useAuth();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -263,7 +263,7 @@ export default function Navbar(isSaving) {
                         <MenuItem component={Link} to="/todo">To-Do</MenuItem>
                         <MenuItem component={Link} to="/timer">Timer</MenuItem>
                 
-                <MenuItem onClick={() => setIsAuthenticated(false)}>Logout</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
                 </MenuList>
                 </Box>
             </Drawer>
