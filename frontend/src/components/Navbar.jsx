@@ -200,7 +200,7 @@ export default function Navbar({ isSaving }) {
                     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1, color: '#ccc' }}>
                         Linked Accounts:
                     </Typography>
-                    <MenuList onClick={handleDrawerClose}>
+                    <MenuList>
                         <MenuItem
                             component="a"
                             href="https://github.com/"
