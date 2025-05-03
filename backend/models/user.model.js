@@ -21,6 +21,8 @@ const userSchema = new mongoose.Schema({
         enum: ['local', 'google'], 
         default: 'local' 
     }
+    spotifyAccessToken: String,
+    spotifyRefreshToken: String,
 
 }, {
     timestamps: true
