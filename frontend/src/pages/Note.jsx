@@ -51,6 +51,7 @@ const Note = () => {
 
   return (
     <>
+    <title>{note.name}</title>
     <Box sx={{ width: '100%', textAlign: 'center', margin: 1}}>
     <Button component={Link} to="/notes" sx={{margin:1}}><ArrowBackIcon/>Back</Button>
     <Typography variant="h5" sx={{fontWeight:'bold', margin: 1, textAlign:'center'}}>

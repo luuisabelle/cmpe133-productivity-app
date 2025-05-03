@@ -26,10 +26,6 @@ function App() {
   const { isAuthenticated } = useAuth();
   const { loading } = useAuth();
 
-  useEffect(() => {
-    console.log(isAuthenticated)
-  })
-
   const [isSavingTodo, setIsSavingTodo] = useState(false);
   const [isSavingSchedule, setIsSavingSchedule] = useState(false);
   const [isSavingNote, setIsSavingNote] = useState(false);
@@ -70,10 +66,10 @@ function App() {
         <Route path="/timer" element={<Timer />} />
         <Route path="/spotify" element={<Spotify />} />
         <Route path="/settings" element={<Settings/>} />
+        <Route path="/widgets" element={<Widgets />} />
         </Route>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/widgets" element={<Widgets />} />
       </Routes>
       </Grid>
       </Grid>

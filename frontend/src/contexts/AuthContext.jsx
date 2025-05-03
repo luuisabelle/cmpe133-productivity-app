@@ -146,7 +146,7 @@ const AuthProvider = ({ children }) => {
         setCurrentUser(null)
         setIsAuthenticated(false)
         navigate('/signin')
-    };
+    }
 
 
     return (
