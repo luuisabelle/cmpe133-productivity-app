@@ -7,7 +7,7 @@ How to build and run this project:
    -   sites to refer to:
       -    https://developer.spotify.com/documentation/web-api
       -    https://www.mongodb.com/
-      -    https://console.cloud.google.com/
+      -    https://console.cloud.google.com/  
 Note: You should be able to access all of this, except for our specific MongoDB database, which we did not disclose in .env.example due to security reasons. Please reach out to one of us if you would like to access it.
 7. to enable AI chatbot feature:
    - create ".env" file in the "./frontend/" directory
