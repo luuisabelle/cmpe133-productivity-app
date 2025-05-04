@@ -12,23 +12,10 @@ export const getUserTodos = async (req, res) => {
     }
 };
 
-export const getTodosByUser = async (req, res) => {
-    try {
-      const email = req.query.email;
-      const todos = await Todo.find({ userEmail: email });
-      res.status(200).json({ success: true, data: todos });
-    } catch (error) {
-      console.error("Cannot get todos by user:", error.message);
-      res.status(500).json({ success: false, message: "Server Error" });
-    }
-  };
-  
-  
-
 export const createTodo = async (req, res) => {
     try {
-    const {todo} = req.body;
-    const newTodo = await Todo.create({todo, userId: req.userId});
+    const {title, priority} = req.body;
+    const newTodo = await Todo.create({title, priority, userId: req.userId, completed:false});
         res.status(201).json({ success: true, data: newTodo});
     } catch (error) {
         console.error("Cannot create new todo.", error.message);

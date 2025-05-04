@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from '../components/Calendar'
 import { Box } from '@mui/material'
-import ScheduleList from '../components/ScheduleList'
+import ScheduleList, {CalendarStyles} from '../components/ScheduleList'
 
 const Scheduling = ({ setIsSavingSchedule }) => {
   const [schedules, setSchedules] = useState([]);
@@ -35,9 +35,10 @@ useEffect(() => {
   return (
     <>
     <title>Schedules</title>
-    <Box>
+    <Box sx={{m:0}}>
     <Calendar onScheduleAdded={fetchSchedules} setIsSavingSchedule={setIsSavingSchedule}/>
     <br></br>
+    <CalendarStyles/>
     <ScheduleList setSchedules={setSchedules} schedules={schedules} fetchSchedules={fetchSchedules}/>
     </Box>
     </>

@@ -90,8 +90,8 @@ const handleNew = async() => {
 }
 
   return (
-    <Box align='center' sx={{width:'100%'}}>
-    <Button onClick={() => setCreateNew(true)} variant="contained" sx={{margin:'0', padding:'10px'}}><AddIcon/>new</Button>
+    <Box align='center' sx={{width:'100%', m: 0, p: 0, mt:2}}>
+    <Button onClick={() => setCreateNew(true)} variant="contained" sx={{mb:2, padding:'10px'}}><AddIcon/>new</Button>
     <Dialog open={createNew} onClose={closeDialog}>
         <DialogTitle>New Note</DialogTitle>
         <DialogContent sx={{display:'flex', flexDirection:'column'}}>
@@ -100,7 +100,7 @@ const handleNew = async() => {
             <Button onClick={closeDialog} sx={{padding:2}}>Close</Button>
         </DialogContent>
     </Dialog>
-    <TableContainer sx={{width:'60%'}}>
+    <TableContainer sx={{width:'70%'}}>
     <Table>
       <TableHead>
         <TableRow>

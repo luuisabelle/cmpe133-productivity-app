@@ -10,6 +10,23 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { clockClasses, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import { GlobalStyles } from '@mui/material';
+
+export function CalendarStyles() {
+  return (
+    <GlobalStyles
+      styles={{
+        '.fc .fc-today-button': {
+          backgroundColor: '#1976d2', 
+        },
+        '.fc .fc-prev-button, .fc .fc-next-button': {
+          backgroundColor: '#1976d2', 
+        },
+      }}
+    />
+  );
+}
+
 
 const ScheduleList = ({schedules, fetchSchedules, setSchedules}) => {
 const [editingId, setEditingId] = useState();

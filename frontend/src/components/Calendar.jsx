@@ -75,20 +75,20 @@ const Calendar = ({onScheduleAdded, setIsSavingSchedule = () => {} }) => {
         value={selectedDate}
         onChange={(newValue) => setSelectedDate(newValue)}
         />
-        <Box sx={{
+        <Box gap={.35} sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'}}>
-        <Box display="flex" gap={2}>
-        <TimePicker label="Pick a Start Time" 
+        <TimePicker label="Start Time" 
         value={startTime}
-        onChange={(newValue) => setStartTime(newValue)}/> 
+        onChange={(newValue) => setStartTime(newValue)}
+        sx={{minWidth:'132px'}}/> 
         <p>to</p>
-        <TimePicker label="Pick an End Time" 
+        <TimePicker label="End Time" 
         value={endTime}
-        onChange={(newValue) => setEndTime(newValue)}/> 
-        </Box>
-        <Button variant="contained" onClick={handleAccept} sx={{margin: '10px', padding: '10px'}}>Select</Button>
+        onChange={(newValue) => setEndTime(newValue)}
+        sx={{minWidth:'132px'}}/> 
+        <Button variant="contained" onClick={handleAccept} sx={{margin: '10px', padding: '10px', minWidth:'85px'}}>Schedule</Button>
         </Box>
       </Box>
     </LocalizationProvider>

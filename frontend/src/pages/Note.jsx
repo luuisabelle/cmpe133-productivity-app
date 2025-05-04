@@ -2,10 +2,12 @@ import { Box, Button, IconButton, Paper, TextField, Typography } from '@mui/mate
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Note = () => {
   const {noteId:id} = useParams()
   const [note, setNote] = useState({ name: '', content: '' })
+  const [name, setName] = useState('')
   const [content, setContent] = useState('')
 
   useEffect(() => {
@@ -54,9 +56,14 @@ const Note = () => {
     <title>{note.name}</title>
     <Box sx={{ width: '100%', textAlign: 'center', margin: 1}}>
     <Button component={Link} to="/notes" sx={{margin:1}}><ArrowBackIcon/>Back</Button>
+    <Box justifyContent='center' display='flex'>
     <Typography variant="h5" sx={{fontWeight:'bold', margin: 1, textAlign:'center'}}>
       {note.name}
     </Typography>
+    <IconButton>
+      <EditIcon/>
+    </IconButton>
+    </Box>
     </Box>
     <Paper sx={{width:'800px', height:'1200px', display:"flex", flexDirection:"column"}}>
       <TextField fullWidth multiline value={content} onBlur={saveNote} variant="standard" InputProps={{

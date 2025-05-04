@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Typography, TextField, Button, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, IconButton, AccordionDetails, Box } from '@mui/material'
+import { Typography, TextField, Button, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, IconButton, AccordionDetails, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
@@ -8,10 +8,15 @@ import Checkbox from '@mui/material/Checkbox'
 
 const ToDoList = ({ setIsSavingTodo = () => {} }) => {
 const [todos, setTodos] = useState([])
-const [todo, setTodo] = useState('')
-const [editedTodos, setEditedTodos] = useState({})
+const [title, setTitle] = useState('')
+const [editedTitle, setEditedTitle] = useState('')
+const [editedPriority, setEditedPriority] = useState('')
+//const [todo, setTodo] = useState('')
+const [editedTodos, setEditedTodos] = useState({title: '', priority: ''})
+const [editedTodo, setEditedTodo] = useState({title: '', priority: ''})
 const [editingId, setEditingId] = useState(null)
 const [completed, setCompleted] = useState(false)
+const [priority, setPriority] = useState('')
  //TODO: Replace with Google login email
 const [userEmail] = "testuser@gmail.com";
 
@@ -23,13 +28,15 @@ const handleNew = async() => {
       method:"POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({
-        todo: todo
+        title: title,
+        priority: priority
       }),
     })
     if (!response.ok) {
       throw new Error('Failed to save task')
     }
-    setTodo('')
+    setTitle('')
+    setPriority('')
     fetchTodos();
     await new Promise(r => setTimeout(r, 300));
   }
@@ -41,15 +48,15 @@ const handleNew = async() => {
 }
   useEffect(() => {
     fetchTodos();
-  }, [])
+  }, [todos])
 
   const handleChange = async(id, value) => {
     setEditedTodos({...editedTodos, [id]: value});
   }
 
   const startEdit = (id, currentValue) => {
-    setEditingId(id);
-    setEditedTodos({...editedTodos, [id]: currentValue})
+    setEditingId(id)
+    setEditedTodo({id, title: currentValue.title, priority: currentValue.priority})
   }
 
   const stopEdit = () => {
@@ -79,6 +86,9 @@ const handleNew = async() => {
   }
 
   const completeTodo = async (id, completed) => {
+    setTodos(todos.map(todo => 
+      todo._id === id ? { ...todo, completed: !completed } : todo
+  ));
       try {
         const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
           method:"PUT",
@@ -114,11 +124,11 @@ const handleNew = async() => {
     }
   }
 
-  const updateTodo = async(id, text) => {
+  const updateTodo = async(id) => {
     stopEdit();
     try {
       const updatedTodos = todos.map(todo => 
-        todo._id === id ? { ...todo, todo: text } : todo
+        todo._id === id ? { ...todo, title: editedTitle, priority: editedPriority } : todo
       );
       setTodos(updatedTodos);
       setEditingId(null);
@@ -127,7 +137,8 @@ const handleNew = async() => {
         method:"PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          todo: text
+          title: editedTitle,
+          priority: editedPriority
         }),
       })
       if (!response.ok) {
@@ -148,20 +159,34 @@ const handleNew = async() => {
     alignItems: 'center'
   }}
 >
-    <Box display='flex' alignItems='center' justifyContent='center' sx={{margin:'0', padding:'0'}}>
-    <TextField label="Add a task" value={todo} onChange={(e) => setTodo(e.target.value)}/>
+    <Box display='flex' alignItems='center' justifyContent='center' sx={{margin:2, padding:2}}>
+    <TextField label="Add a task" value={title} onChange={(e) => setTitle(e.target.value)} sx={{minWidth:'125px'}}/>
+    <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel>Priority</InputLabel>
+        <Select
+          label="Priority"
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+        >
+          <MenuItem value='High'>High</MenuItem>
+          <MenuItem value='Medium'>Medium</MenuItem>
+          <MenuItem value='Low'>Low</MenuItem>
+        </Select>
+      </FormControl>
     <Button variant="contained" onClick={handleNew} sx={{margin:0, padding: '10px'}}>Add</Button>
     </Box>
+    {priority ? (
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={4}>
+                <TableCell colSpan={5}>
         </TableCell>
         </TableRow>
               <TableRow>
                 <TableCell></TableCell>
               <TableCell>Tasks</TableCell>
+              <TableCell>Priority</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
               </TableRow>
@@ -176,17 +201,42 @@ const handleNew = async() => {
               <TableCell>
               <Checkbox checked={todo.completed} onClick={() => completeTodo(todo._id, todo.completed)}/>
               </TableCell>
-              <TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>
+              {/*<TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>*/}
                 {editingId === todo._id ? (
-                  <TextField value={editedTodos[todo._id]} onChange = {(e) => handleChange(todo._id, e.target.value)} placeholder="Edit your task" size="small" autofocus sx={{width:'100px'}}></TextField>
+                  <>
+                  <TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>
+                  <TextField value={editedTitle} onChange = {(e) => setEditedTitle(e.target.value)} placeholder="Edit your task" size="small" autofocus sx={{width:'100px'}}></TextField>
+                  </TableCell>
+                  <TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>
+                  <FormControl size='small' sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>Priority</InputLabel>
+                  <Select
+                    label="Priority"
+                    value={editedPriority}
+                    onChange = {(e) => setEditedPriority(e.target.value)} 
+                  >
+                    <MenuItem value='High'>High</MenuItem>
+                    <MenuItem value='Medium'>Medium</MenuItem>
+                    <MenuItem value='Low'>Low</MenuItem>
+                  </Select>
+                </FormControl>
+                  </TableCell>
+                  </>
                 ) : (
-                  todo.todo
+                  <>
+                  <TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>
+                  {todo.title}
+                  </TableCell>
+                  <TableCell scope="row" sx={{textDecoration: todo.completed ? 'line-through':'none'}}>
+                  {todo.priority}
+                  </TableCell>
+                  </>
                 )}
-              </TableCell>
+              {/*</TableCell>*/}
               {editingId === todo._id ? (
                 <>
                 <TableCell align="right">
-                  <IconButton onClick={() => updateTodo(todo._id, editedTodos[todo._id])}>
+                  <IconButton onClick={() => updateTodo(todo._id)}>
                     <CheckIcon/>
                   </IconButton>
                   </TableCell>
@@ -199,7 +249,7 @@ const handleNew = async() => {
               ) : (
                 <>
                 <TableCell align="right">
-                  <IconButton edge="end" onClick={() => startEdit(todo._id, todo.todo)}>
+                  <IconButton edge="end" onClick={() => startEdit(todo._id, todo)}>
                         <EditIcon />
                   </IconButton>
                   </TableCell >
@@ -217,6 +267,10 @@ const handleNew = async() => {
         </TableBody>
         </Table>
         </TableContainer>
+    )
+    :
+    (<Typography >No tasks yet</Typography>)
+  }
     </Box>
   )
 }

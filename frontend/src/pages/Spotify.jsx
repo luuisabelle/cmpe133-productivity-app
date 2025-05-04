@@ -13,6 +13,7 @@ const Spotify = () => {
                 p: 3,
                 textAlign: 'center',
                 mt: 4,
+                mb:4
             }}
         >
             <title>Spotify</title>
