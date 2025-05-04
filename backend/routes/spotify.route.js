@@ -1,13 +1,14 @@
-import express from "express";
-import { authenticate, refreshSpotifyToken } from "../middlewares/auth.js";
-import { getAuthURL, callback, playTrack } from "../controllers/spotify.controllers.js";
+import express from 'express'
+import {
+    getAuthURL, callback, disconnect,playTrack
+} from '../controllers/spotify.controllers.js'
+import { authenticate } from '../middlewares/auth.js'
 
+const router = express.Router()
 
+router.get('/auth', authenticate, getAuthURL)
+router.get('/callback', callback)
+router.post('/disconnect', authenticate, disconnect)
+router.post('/play', authenticate, playTrack)
 
-const router = express.Router();
-
-router.get("/auth", authenticate, getAuthURL);
-router.get("/callback", callback);
-router.post("/play", authenticate, playTrack);
-router.post("/play", authenticate, refreshSpotifyToken, playTrack);
-export default router;
+export default router
