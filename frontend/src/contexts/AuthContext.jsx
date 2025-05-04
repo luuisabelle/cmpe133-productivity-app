@@ -8,6 +8,7 @@ const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null)
     const [token, setToken] = useState(localStorage.getItem('token'))
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [spotifyConnected, setSpotifyConnected] = useState(false);
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
@@ -21,11 +22,14 @@ const AuthProvider = ({ children }) => {
                           'Authorization': `Bearer ${token}`
                       }
                   });
-                  
+
                   if (response.ok) {
                       const data = await response.json()
                       setCurrentUser(data.user)
                       setIsAuthenticated(true)
+                      if (data.user?.spotifyAccessToken) {
+                          setSpotifyConnected(true)
+                      }
                   } else {
                       localStorage.removeItem('token')
                       setToken(null)
@@ -37,7 +41,7 @@ const AuthProvider = ({ children }) => {
                   setToken(null)
                   setIsAuthenticated(false)
               } finally {
-                setLoading(false) 
+                setLoading(false)
             }
         } else {
             setLoading(false)
@@ -45,14 +49,14 @@ const AuthProvider = ({ children }) => {
       };
 
       verifyToken()
-  }, [token]); 
+  }, [token]);
 
   const googleSignIn = async (credentialResponse) => {
     try {
           setLoading(true)
             const response = await fetch("http://localhost:5000/api/auth/google", {
                 method:"POST",
-                headers: { 
+                headers: {
                   "Content-Type": "application/json",
                   "Authorization": `Bearer ${credentialResponse.credential}`
               },
@@ -141,6 +145,7 @@ const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
+        setSpotifyConnected(false)
         localStorage.removeItem('token')
         setToken(null)
         setCurrentUser(null)
@@ -150,7 +155,23 @@ const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{currentUser, token, login, signup, logout, isAuthenticated, setIsAuthenticated, loading, googleSignIn}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider
+            value={{
+                currentUser,
+                token,
+                login,
+                signup,
+                logout: handleLogout,
+                isAuthenticated,
+                setIsAuthenticated,
+                loading,
+                googleSignIn,
+                spotifyConnected,
+                updateSpotifyStatus
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
     )
 }
 
