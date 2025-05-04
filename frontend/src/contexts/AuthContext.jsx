@@ -161,13 +161,14 @@ const AuthProvider = ({ children }) => {
                 token,
                 login,
                 signup,
-                logout: handleLogout,
+                logout,
+                //: handleLogout,
                 isAuthenticated,
                 setIsAuthenticated,
                 loading,
                 googleSignIn,
                 spotifyConnected,
-                updateSpotifyStatus
+                //updateSpotifyStatus
             }}
         >
             {children}

@@ -48,7 +48,7 @@ const handleNew = async() => {
 }
   useEffect(() => {
     fetchTodos();
-  }, [todos])
+  }, [])
 
   const handleChange = async(id, value) => {
     setEditedTodos({...editedTodos, [id]: value});
@@ -175,7 +175,7 @@ const handleNew = async() => {
       </FormControl>
     <Button variant="contained" onClick={handleNew} sx={{margin:0, padding: '10px'}}>Add</Button>
     </Box>
-    {priority ? (
+    {todos ? (
         <TableContainer>
           <Table>
             <TableHead>

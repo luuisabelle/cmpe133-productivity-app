@@ -33,7 +33,7 @@ export const callback = async (req, res) => {
             spotifyRefreshToken: data.refresh_token
         })
 
-        res.redirect('http://localhost:5000/spotify-success')
+        res.redirect('http://localhost:5001/spotify-success')
     } catch (error) {
         console.error("Spotify callback error:", error.response?.data || error.message)
         res.status(500).json({ error: "Authentication failed" })
