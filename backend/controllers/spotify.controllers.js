@@ -1,81 +1,83 @@
-import axios from "axios";
-import querystring from "querystring";
-import User from "../models/user.model.js";
-
-const SPOTIFY_API = "https://api.spotify.com/v1";
-
-// Helper(Exchange authorizarion code for tokens)
-const getSpotifyTokens = async (code) => {
-  const { data } = await axios.post(
-    "https://accounts.spotify.com/api/token",
-    querystring.stringify({
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-    }),
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${Buffer.from(
-          `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
-        ).toString("base64")}`,
-      },
-    }
-  );
-  return data;
-};
+import axios from 'axios'
+import User from '../models/user.model.js'
 
 export const getAuthURL = (req, res) => {
-  const scopes = "user-read-playback-state user-modify-playback-state";
-  const url = `https://accounts.spotify.com/authorize?${querystring.stringify({
-    response_type: "code",
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    scope: scopes,
-    redirect_uri: `http://127.0.0.1:${process.env.PORT || 5000}/api/spotify/callback`,
-    state: req.userId,
-
-  })}`;
-  res.json({ url });
-};
+    const scopes = 'user-read-playback-state user-modify-playback-state'
+    const url = `https://accounts.spotify.com/authorize?${new URLSearchParams({
+        response_type: 'code',
+        client_id: process.env.SPOTIFY_CLIENT_ID,
+        scope: scopes,
+        redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+        state: req.userId
+    })}`
+    res.json({ url })
+}
 
 export const callback = async (req, res) => {
-  try {
-    const { code, state: userId } = req.query;
-    const tokens = await getSpotifyTokens(code);
+    try {
+        const { code, state: userId } = req.query
 
-    //saving the tokens to the user document
-    await User.findByIdAndUpdate(userId, {
-      spotifyAccessToken: tokens.access_token,
-      spotifyRefreshToken: tokens.refresh_token,
-    });
+        const { data } = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: process.env.SPOTIFY_REDIRECT_URI
+        }), {
+            headers: {
+                'Authorization': `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
 
-    res.redirect(`${process.env.FRONTEND_URL}/spotify-success`); //    Redirect to frontend
-  } catch (error) {
-    console.error("Spotify callback error:", error);
-    res.status(500).json({ error: "Spotify authentication failed" });
-  }
-};
+        await User.findByIdAndUpdate(userId, {
+            spotifyAccessToken: data.access_token,
+            spotifyRefreshToken: data.refresh_token
+        })
+
+        res.redirect('http://localhost:5000/spotify-success')
+    } catch (error) {
+        console.error("Spotify callback error:", error.response?.data || error.message)
+        res.status(500).json({ error: "Authentication failed" })
+    }
+}
 
 export const playTrack = async (req, res) => {
-  try {
-    const user = await User.findById(req.userId);
-    if (!user?.spotifyAccessToken) {
-      return res.status(401).json({ error: "Spotify not connected" });
+    try {
+        const user = await User.findById(req.userId)
+        if (!user?.spotifyAccessToken) {
+            return res.status(401).json({ error: "Spotify not connected" })
+        }
+
+        const { action, trackUri } = req.body
+        const endpoint = `https://api.spotify.com/v1/me/player/${action === 'pause' ? 'pause' : 'play'}`
+
+        await axios({
+            method: action === 'pause' ? 'PUT' : 'PUT',
+            url: endpoint,
+            headers: {
+                'Authorization': `Bearer ${user.spotifyAccessToken}`,
+                'Content-Type': 'application/json'
+            },
+            data: trackUri ? { uris: [trackUri] } : {}
+        })
+
+        res.json({ success: true })
+    } catch (error) {
+        console.error("Playback error:", error.response?.data || error.message)
+        res.status(500).json({ error: "Playback failed" })
     }
+}
 
-    const { data } = await axios.put(
-      `${SPOTIFY_API}/me/player/play`,
-      { uris: [req.body.trackUri] },
-      {
-        headers: {
-          Authorization: `Bearer ${user.spotifyAccessToken}`,
-        },
-      }
-    );
-
-    res.json(data);
-  } catch (error) {
-    console.error("Play track error:", error.response?.data || error.message);
-    res.status(500).json({ error: "Failed to play track" });
-  }
-};
+export const disconnect = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.userId, {
+            $unset: {
+                spotifyAccessToken: "",
+                spotifyRefreshToken: ""
+            }
+        })
+        res.json({ success: true })
+    } catch (error) {
+        console.error("Disconnect error:", error)
+        res.status(500).json({ error: "Disconnect failed" })
+    }
+}
